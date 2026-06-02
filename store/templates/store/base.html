@@ -229,26 +229,31 @@ footer {
       <a href="#">Crown Classic</a>
       <a href="#">VII Prestige</a>
       <a href="#">Royal Chrono</a>
-      <a href="#">Gold watches</a>
       <a href="#">New watches 2026</a>
-    </div>
 
-    <div class="footer-col">
-      <h3>Watchmaking</h3>
+      <h3 style="margin-top:35px;">Watchmaking</h3>
       <a href="#">At the core of excellence</a>
       <a href="#">Behind the crown</a>
       <a href="#">CROWNVII anatomy</a>
+    </div>
 
-      <h3 style="margin-top:35px;">Buying and servicing</h3>
+    <div class="footer-col">
+      <h3>Buying and servicing</h3>
       <a href="#">Buying a CROWNVII</a>
       <a href="#">Servicing your watch</a>
       <a href="#">Caring for your CROWNVII</a>
+      
+      <h3 style="margin-top:35px;">Legal</h3>
+      <a href="{% url 'terms' %}">Terms of Use</a>
+      <a href="{% url 'privacy' %}">Privacy Notice</a>
+      <a href="{% url 'refund' %}">Refund Policy</a>
+      
     </div>
 
     <div class="footer-col">
       <h3>Help and support</h3>
       <a href="#">Frequently asked questions</a>
-      <a href="#">Contact support</a>
+      <a href="{% url 'contact' %}">Contact support</a>
 
       <h3 style="margin-top:35px;">Official channels</h3>
       <a href="#">Instagram</a>

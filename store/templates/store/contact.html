@@ -1,68 +1,152 @@
 {% extends 'store/base.html' %}
 
+{% block title %}Contact CROWNVII{% endblock %}
+
 {% block extra_css %}
 <style>
-  .page-title {
-    text-align: center;
-    font-family: 'Courier New', monospace;
-    font-size: 36px;
-    margin: 30px 0 60px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    line-height: 1.2;
-  }
-
-  .contact-container {
+.contact-page {
     max-width: 900px;
     margin: 0 auto;
-    padding: 0 40px;
+    padding: 80px 24px 120px;
     text-align: center;
-  }
+}
 
-  .contact-container p {
-    font-family: 'Courier New', monospace;
-    font-size: 18px;
+.contact-page small {
+    display: block;
+    letter-spacing: 6px;
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 12px;
+}
+
+.contact-page h1 {
+    font-size: 64px;
+    margin: 0 0 30px;
+    font-weight: 700;
+}
+
+.contact-page .intro {
+    max-width: 650px;
+    margin: 0 auto 60px;
+    font-size: 17px;
     line-height: 1.8;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
+    color: #555;
+}
 
-  .contact-container a {
-    color: black;
-    text-decoration: underline;
-    word-break: break-word;
-  }
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    margin-top: 50px;
+}
 
-  @media (max-width: 768px) {
-    .page-title {
-      font-size: 24px;
-      margin: 20px 0 40px;
-      letter-spacing: 1px;
-      padding: 0 16px;
+.contact-card {
+    background: #f8f8f8;
+    padding: 40px;
+    text-align: left;
+}
+
+.contact-card h3 {
+    margin: 0 0 20px;
+    font-size: 24px;
+}
+
+.contact-card p {
+    margin: 8px 0;
+    line-height: 1.7;
+    color: #555;
+}
+
+.contact-card a {
+    color: #111;
+    text-decoration: none;
+    border-bottom: 1px solid #111;
+}
+
+.contact-card a:hover {
+    opacity: 0.7;
+}
+
+.response-box {
+    margin-top: 60px;
+    background: #f8f8f8;
+    padding: 35px;
+}
+
+.response-box h3 {
+    margin-top: 0;
+    font-size: 24px;
+}
+
+.response-box p {
+    color: #555;
+    line-height: 1.8;
+}
+
+@media (max-width: 768px) {
+    .contact-page {
+        padding: 50px 20px 80px;
     }
 
-    .contact-container {
-      padding: 0 24px;
+    .contact-page h1 {
+        font-size: 42px;
     }
 
-    .contact-container p {
-      font-size: 16px;
-      line-height: 1.8;
+    .contact-grid {
+        grid-template-columns: 1fr;
     }
-  }
+
+    .contact-card {
+        padding: 30px;
+    }
+}
 </style>
 {% endblock %}
 
 {% block content %}
 
-<h1 class="page-title">Contact Information</h1>
+<section class="contact-page">
 
-<div class="contact-container">
-  <p>
-    FOR ANY ENQUIRIES CONTACT
-    <a href="mailto:HELLOHUSTLE123@GMAIL.COM">HELLOHUSTLE123@GMAIL.COM</a>
-  </p>
-</div>
+    <small>CROWNVII</small>
+    <h1>Contact Us</h1>
 
+    <p class="intro">
+        Our client advisors are available to assist with product enquiries,
+        order updates, delivery questions, and after-sales support.
+    </p>
+
+    <div class="contact-grid">
+
+        <div class="contact-card">
+            <h3>Customer Support</h3>
+            <p>Email:</p>
+            <p>
+                <a href="mailto:support@crownvii.com">
+                    support@crownvii.com
+                </a>
+            </p>
+        </div>
+
+        <div class="contact-card">
+            <h3>Business Enquiries</h3>
+            <p>Email:</p>
+            <p>
+                <a href="mailto:hello@crownvii.com">
+                    hello@crownvii.com
+                </a>
+            </p>
+        </div>
+
+    </div>
+
+    <div class="response-box">
+        <h3>Response Time</h3>
+        <p>
+            We aim to respond to all enquiries within 24–48 business hours.
+            During peak periods, response times may be slightly longer.
+        </p>
+    </div>
+
+</section>
 
 {% endblock %}
