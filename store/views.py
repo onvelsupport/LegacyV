@@ -117,6 +117,28 @@ def home(request):
         'favourites': favourites,
     })
 
+def favourites(request):
+    sort = request.GET.get('sort', 'new')
+
+    favourite_ids = request.session.get('favourites', [])
+    products = Product.objects.filter(id__in=favourite_ids)
+
+    if sort == 'price_low':
+        products = products.order_by('price')
+    elif sort == 'price_high':
+        products = products.order_by('-price')
+    elif sort == 'name':
+        products = products.order_by('name')
+    else:
+        products = products.order_by('-created_at')
+
+    return render(request, 'store/favourites.html', {
+        'products': products,
+        'favourites': favourite_ids,
+        'current_sort': sort,
+    })
+
+
 def collection(request):
     products = Product.objects.all().order_by('-created_at')
 
@@ -442,11 +464,3 @@ def toggle_favourite(request, product_id):
 
     return redirect(request.META.get('HTTP_REFERER', 'home'))
 
-
-def favourites(request):
-    favourite_ids = request.session.get('favourites', [])
-    products = Product.objects.filter(id__in=favourite_ids)
-
-    return render(request, 'store/favourites.html', {
-        'products': products
-    })
