@@ -1,0 +1,110 @@
+{% extends 'store/base.html' %}
+
+{% block extra_css %}
+<style>
+  .checkout-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 40px 60px;
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 60px;
+  }
+
+  .checkout-title {
+    font-size: 36px;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+  }
+
+  .checkout-form p {
+    margin-bottom: 18px;
+  }
+
+  .checkout-form label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+
+  .checkout-form input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    background: white;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    box-sizing: border-box;
+  }
+
+  .summary-box {
+    background: white;
+    padding: 25px;
+    border: 1px solid #ddd;
+    height: fit-content;
+  }
+
+  .summary-box h2 {
+    font-size: 20px;
+    margin-top: 0;
+    text-transform: uppercase;
+  }
+
+  .summary-item {
+    margin-bottom: 16px;
+    font-size: 14px;
+    text-transform: uppercase;
+  }
+
+  .place-order-btn {
+    display: inline-block;
+    background: black;
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    font-family: 'Courier New', monospace;
+    text-transform: uppercase;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  @media (max-width: 900px) {
+    .checkout-container {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="checkout-container">
+  <div>
+    <h1 class="checkout-title">Checkout</h1>
+
+    {% if error %}
+  <p style="color: red; text-transform: uppercase;">{{ error }}</p>
+  {% endif %}
+
+    <form method="post" class="checkout-form">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="place-order-btn">Place Order</button>
+    </form>
+  </div>
+
+  <div class="summary-box">
+    <h2>Order Summary</h2>
+
+    {% for item in cart_items %}
+      <div class="summary-item">
+        {{ item.product.name }} x {{ item.quantity }}<br>
+        £{{ item.item_total }}
+      </div>
+    {% endfor %}
+
+    <hr>
+    <p><strong>Total: £{{ total }}</strong></p>
+  </div>
+</div>
+{% endblock %}

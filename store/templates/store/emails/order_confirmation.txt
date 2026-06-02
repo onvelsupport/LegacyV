@@ -1,0 +1,21 @@
+Hello {{ order.full_name }},
+
+Thank you for your order from CROWNVII.
+
+Order Number: {{ order.order_number }}
+
+Delivery address:
+{{ order.address }}
+{{ order.city }}
+{{ order.postcode }}
+{{ order.country }}
+
+Items:
+{% for item in order_items %}
+- {{ item.product.name }}{% if item.size %} ({{ item.size }}){% endif %} x {{ item.quantity }} - £{{ item.price }}
+{% endfor %}
+
+Track your order:
+{{ tracking_url }}
+
+CROWNVII

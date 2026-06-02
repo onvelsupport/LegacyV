@@ -1,0 +1,272 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block title %}CROWNVII Watches | All Models{% endblock %}
+
+{% block extra_css %}
+<style>
+.page-hero {
+    text-align: center;
+    padding: 55px 20px 45px;
+}
+
+.page-hero small {
+    display: block;
+    letter-spacing: 7px;
+    font-size: 15px;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.page-hero h1 {
+    font-size: 68px;
+    margin: 0;
+    line-height: 1;
+    font-weight: 700;
+}
+
+.tabs {
+    display: flex;
+    justify-content: center;
+    gap: 110px;
+    margin-top: 50px;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.tabs span:first-child {
+    color: #007a3d;
+    border-bottom: 3px solid #007a3d;
+    padding: 0 100px 18px;
+}
+
+.filter-bar {
+    display: flex;
+    justify-content: space-between;
+    padding: 60px 6% 30px;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.filters {
+    display: flex;
+    gap: 45px;
+}
+
+.watch-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    padding: 0 6%;
+}
+
+.watch-card {
+    background: #f8f8f8;
+    min-height: 400px;
+    padding: 45px 55px;
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    overflow: hidden;
+}
+
+.heart {
+    position: absolute;
+    top: 35px;
+    left: 55px;
+    font-size: 24px;
+    color: #007a3d;
+}
+
+.watch-info h2 {
+    font-size: 22px;
+    margin: 0 0 8px;
+    line-height: 1.2;
+}
+
+.watch-info p {
+    font-size: 14px;
+    margin: 6px 0;
+    line-height: 1.45;
+}
+
+.watch-img {
+    text-align: center;
+}
+
+.watch-img img {
+    max-width: 100%;
+    max-height: 300px;
+    object-fit: contain;
+}
+
+.promo-card {
+    background: #eef1f2;
+    min-height: 400px;
+    padding: 55px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.promo-card h2 {
+    font-size: 22px;
+    margin-bottom: 8px;
+}
+
+.promo-card p {
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+@media (max-width: 900px) {
+    .page-hero {
+        padding: 45px 16px 35px;
+    }
+
+    .page-hero small {
+        font-size: 12px;
+        letter-spacing: 4px;
+    }
+
+    .page-hero h1 {
+        font-size: 42px;
+    }
+
+    .tabs {
+        gap: 35px;
+        font-size: 13px;
+        margin-top: 35px;
+    }
+
+    .tabs span:first-child {
+        padding: 0 25px 12px;
+    }
+
+    .filter-bar {
+        flex-direction: column;
+        gap: 18px;
+        padding: 35px 16px 25px;
+        font-size: 13px;
+    }
+
+    .filters {
+        gap: 18px;
+        flex-wrap: wrap;
+    }
+
+    .watch-grid {
+        grid-template-columns: 1fr;
+        padding: 0 16px;
+    }
+
+    .watch-card {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        padding: 50px 24px 30px;
+    }
+
+    .heart {
+        left: 24px;
+        top: 24px;
+        font-size: 22px;
+    }
+
+    .watch-info h2 {
+        font-size: 20px;
+    }
+
+    .watch-info p {
+        font-size: 13px;
+    }
+
+    .watch-img img {
+        max-height: 240px;
+        margin-top: 20px;
+    }
+
+    .promo-card {
+        min-height: 300px;
+        padding: 35px 24px;
+    }
+}
+
+.heart-form {
+    position: absolute;
+    top: 35px;
+    left: 55px;
+    z-index: 5;
+}
+
+.heart {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #007a3d;
+    cursor: pointer;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<section class="page-hero">
+    <small>CROWNVII WATCHES</small>
+    <h1>All models</h1>
+
+    <div class="tabs">
+        <span>Model view</span>
+    </div>
+</section>
+
+<section class="filter-bar">
+    <div class="filters">
+        <span>New models⌄</span>
+        <span>Collection⌄</span>
+        <span>Size⌄</span>
+        <span>Material⌄</span>
+        <span>Filters ⚙</span>
+    </div>
+
+    <span>Sort by⌄</span>
+</section>
+
+<section class="watch-grid">
+    {% for product in products %}
+        <a href="{% url 'product_detail' product.slug %}" class="watch-card">
+            <form method="post" action="{% url 'toggle_favourite' product.id %}" class="heart-form">
+              {% csrf_token %}
+              <button type="submit" class="heart">♡</button>
+            </form>
+
+            <div class="watch-info">
+                <h2>{{ product.name }}</h2>
+                <p>{{ product.description|truncatewords:8 }}</p>
+                <p>£{{ product.price }} ⓘ</p>
+            </div>
+
+            <div class="watch-img">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                {% else %}
+                    <img src="{% static 'store/images/watch-placeholder.png' %}" alt="{{ product.name }}">
+                {% endif %}
+            </div>
+        </a>
+    {% empty %}
+        <div class="watch-card">
+            <div class="watch-info">
+                <h2>No watches yet</h2>
+                <p>Add watches from your Django admin panel.</p>
+            </div>
+        </div>
+    {% endfor %}
+
+    <div class="promo-card">
+        <h2>Brilliant like no other</h2>
+        <p>Discover the signature details behind every CROWNVII watch.</p>
+    </div>
+</section>
+
+{% endblock %}
