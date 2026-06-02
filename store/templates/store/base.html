@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}CROWNVII{% endblock %}</title>
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
 * {
     box-sizing: border-box;
@@ -200,8 +200,10 @@ footer {
 
 <div class="icons">
   <a href="{% url 'search' %}">⌕</a>
-  <a href="{% url 'collection' %}">⌖</a>
   <a href="{% url 'favourites' %}">♥</a>
+  <a href="{% url 'cart' %}">
+    <i class="fa-solid fa-bag-shopping"></i>
+</a>
 </div>
 
   <div class="mobile-menu" id="mobileMenu">

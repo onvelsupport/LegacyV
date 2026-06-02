@@ -218,15 +218,25 @@
     </div>
 </section>
 
-<section class="sort-bar">
-    <form method="get">
-        <select name="sort" onchange="this.form.submit()">
-            <option value="new" {% if current_sort == 'new' %}selected{% endif %}>New In</option>
-            <option value="price_low" {% if current_sort == 'price_low' %}selected{% endif %}>Price: Low to High</option>
-            <option value="price_high" {% if current_sort == 'price_high' %}selected{% endif %}>Price: High to Low</option>
-            <option value="name" {% if current_sort == 'name' %}selected{% endif %}>Name A-Z</option>
-        </select>
-    </form>
+<section class="filter-sort-bar">
+
+    <div class="filter-left">
+        <button type="button" class="filter-btn">
+            Filters ⚙
+        </button>
+    </div>
+
+    <div class="sort-right">
+        <form method="get">
+            <select name="sort" onchange="this.form.submit()">
+                <option value="new" {% if current_sort == 'new' %}selected{% endif %}>New In</option>
+                <option value="price_low" {% if current_sort == 'price_low' %}selected{% endif %}>Price: Low to High</option>
+                <option value="price_high" {% if current_sort == 'price_high' %}selected{% endif %}>Price: High to Low</option>
+                <option value="name" {% if current_sort == 'name' %}selected{% endif %}>Name A-Z</option>
+            </select>
+        </form>
+    </div>
+
 </section>
 
 <section class="watch-grid">

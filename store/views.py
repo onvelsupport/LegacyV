@@ -96,25 +96,30 @@ def send_order_confirmation_email(order, session):
 
 
 def home(request):
+    products = Product.objects.all()
+
+    gender = request.GET.get('gender')
     sort = request.GET.get('sort', 'new')
 
-    products = Product.objects.all()
+    if gender:
+        products = products.filter(gender=gender)
 
     if sort == 'price_low':
         products = products.order_by('price')
+
     elif sort == 'price_high':
         products = products.order_by('-price')
+
     elif sort == 'name':
         products = products.order_by('name')
+
     else:
         products = products.order_by('-created_at')
-
-    favourites = request.session.get('favourites', [])
 
     return render(request, 'store/index.html', {
         'products': products,
         'current_sort': sort,
-        'favourites': favourites,
+        'current_gender': gender,
     })
 
 def favourites(request):

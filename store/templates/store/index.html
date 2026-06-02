@@ -39,6 +39,30 @@
     padding: 0 100px 18px;
 }
 
+.filter-sort-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 45px 6% 30px;
+}
+
+.filter-btn {
+    border: none;
+    background: transparent;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 0;
+}
+
+.sort-right select {
+    border: none;
+    background: transparent;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    outline: none;
+}
 .sort-bar {
     display: flex;
     justify-content: flex-end;
@@ -157,6 +181,24 @@
         padding: 0 25px 12px;
     }
 
+    .filter-sort-bar {
+        padding: 30px 16px 25px;
+    }
+
+    .filter-left select {
+    border: none;
+    background: transparent;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    outline: none;
+}
+
+    .filter-btn,
+    .sort-right select {
+        font-size: 13px;
+    }
+
     .sort-bar {
         justify-content: flex-end;
         padding: 30px 16px 25px;
@@ -217,15 +259,47 @@
     </div>
 </section>
 
-<section class="sort-bar">
+<section class="filter-sort-bar">
+
+    <div class="filter-left">
     <form method="get">
-        <select name="sort" onchange="this.form.submit()">
-            <option value="new" {% if current_sort == 'new' %}selected{% endif %}>New In</option>
-            <option value="price_low" {% if current_sort == 'price_low' %}selected{% endif %}>Price: Low to High</option>
-            <option value="price_high" {% if current_sort == 'price_high' %}selected{% endif %}>Price: High to Low</option>
-            <option value="name" {% if current_sort == 'name' %}selected{% endif %}>Name A-Z</option>
+
+        <input type="hidden" name="sort" value="{{ current_sort }}">
+
+        <select name="gender" onchange="this.form.submit()">
+            <option value="">All Watches</option>
+
+            <option value="men"
+                {% if current_gender == 'men' %}selected{% endif %}>
+                Men's Watches
+            </option>
+
+            <option value="women"
+                {% if current_gender == 'women' %}selected{% endif %}>
+                Women's Watches
+            </option>
+
+            <option value="unisex"
+                {% if current_gender == 'unisex' %}selected{% endif %}>
+                Unisex Watches
+            </option>
+
         </select>
     </form>
+</div>
+    </div>
+
+    <div class="sort-right">
+        <form method="get">
+            <select name="sort" onchange="this.form.submit()">
+                <option value="new" {% if current_sort == 'new' %}selected{% endif %}>New In</option>
+                <option value="price_low" {% if current_sort == 'price_low' %}selected{% endif %}>Price: Low to High</option>
+                <option value="price_high" {% if current_sort == 'price_high' %}selected{% endif %}>Price: High to Low</option>
+                <option value="name" {% if current_sort == 'name' %}selected{% endif %}>Name A-Z</option>
+            </select>
+        </form>
+    </div>
+
 </section>
 
 <section class="watch-grid">

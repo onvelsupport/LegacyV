@@ -3,12 +3,25 @@ from django.utils.text import slugify
 
 
 class Product(models.Model):
+    GENDER_CHOICES = [
+        ('men', 'Men'),
+        ('women', 'Women'),
+        ('unisex', 'Unisex'),
+    ]
+
     name = models.CharField(max_length=200)
     slug = models.SlugField(unique=True, blank=True, null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     image = models.ImageField(upload_to='products/')
     description = models.TextField(blank=True)
     sold_out = models.BooleanField(default=False)
+
+    gender = models.CharField(
+        max_length=10,
+        choices=GENDER_CHOICES,
+        default='unisex'
+    )
+
     created_at = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
