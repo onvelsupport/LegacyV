@@ -96,9 +96,26 @@ def send_order_confirmation_email(order, session):
 
 
 def home(request):
-    products = Product.objects.all().order_by('-created_at')
-    return render(request, 'store/index.html', {'products': products})
+    sort = request.GET.get('sort', 'new')
 
+    products = Product.objects.all()
+
+    if sort == 'price_low':
+        products = products.order_by('price')
+
+    elif sort == 'price_high':
+        products = products.order_by('-price')
+
+    elif sort == 'name':
+        products = products.order_by('name')
+
+    else:
+        products = products.order_by('-created_at')  # New In
+
+    return render(request, 'store/index.html', {
+        'products': products,
+        'current_sort': sort
+    })
 
 def collection(request):
     products = Product.objects.all().order_by('-created_at')
