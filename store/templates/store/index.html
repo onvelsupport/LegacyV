@@ -204,16 +204,26 @@
         margin-top: 10px;
     }
 
-    .heart-form {
-        top: auto;
-        right: 12px;
-        bottom: 12px;
-        left: auto;
-    }
-
     .heart {
-        font-size: 20px;
-    }
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 28px;
+    font-weight: 900;
+    color: #007a3d;
+    line-height: 1;
+    -webkit-text-stroke: 1px #007a3d;
+}
+
+.heart-active {
+    color: #007a3d;
+    -webkit-text-stroke: 0;
+    text-shadow: 0 0 0 #007a3d;
+}
+
+.heart:hover {
+    transform: scale(1.15);
+}
 
     .promo-card {
         min-height: 260px;
@@ -275,7 +285,8 @@
         <div class="watch-card">
             <form method="post" action="{% url 'toggle_favourite' product.id %}" class="heart-form">
                 {% csrf_token %}
-                <button type="submit" class="heart">
+                <button type="submit"
+        class="heart {% if product.id in favourites %}heart-active{% endif %}">
     {% if product.id in favourites %}
         ♥
     {% else %}
