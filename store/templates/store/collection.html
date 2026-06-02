@@ -82,9 +82,15 @@
 .heart {
     background: none;
     border: none;
-    font-size: 24px;
-    color: #007a3d;
     cursor: pointer;
+    font-size: 28px;
+    font-weight: 900;
+    color: #007a3d;
+    transition: 0.2s;
+}
+
+.heart:hover {
+    transform: scale(1.15);
 }
 
 .watch-info h2 {
@@ -228,7 +234,13 @@
         <div class="watch-card">
             <form method="post" action="{% url 'toggle_favourite' product.id %}" class="heart-form">
                 {% csrf_token %}
-                <button type="submit" class="heart">♡</button>
+                <button type="submit" class="heart">
+    {% if product.id in favourites %}
+        ♥
+    {% else %}
+        ♡
+    {% endif %}
+</button>
             </form>
 
             <a href="{% url 'product_detail' product.slug %}" class="watch-info">

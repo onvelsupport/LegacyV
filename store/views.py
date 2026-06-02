@@ -102,19 +102,19 @@ def home(request):
 
     if sort == 'price_low':
         products = products.order_by('price')
-
     elif sort == 'price_high':
         products = products.order_by('-price')
-
     elif sort == 'name':
         products = products.order_by('name')
-
     else:
-        products = products.order_by('-created_at')  # New In
+        products = products.order_by('-created_at')
+
+    favourites = request.session.get('favourites', [])
 
     return render(request, 'store/index.html', {
         'products': products,
-        'current_sort': sort
+        'current_sort': sort,
+        'favourites': favourites,
     })
 
 def collection(request):
