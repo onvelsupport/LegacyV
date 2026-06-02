@@ -13,9 +13,17 @@ DEBUG = os.getenv("DEBUG", "False") == "True"
 ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
-    'crownvii.com',
+    'crownvii.onrender.com',
     'www.crownvii.com',
-    '.onrender.com',
+    'crownvii.com',
+    'crownvii-1.onrender.com',
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://crownvii.onrender.com',
+    'https://www.crownvii.com',
+    'https://crownvii.com',
+    'https://crownvii-1.onrender.com',
 ]
 
 INSTALLED_APPS = [
