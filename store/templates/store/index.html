@@ -28,15 +28,27 @@
 .tabs {
     display: flex;
     justify-content: center;
+    gap: 110px;
     margin-top: 50px;
     font-size: 15px;
     font-weight: 700;
 }
 
-.tabs span {
+.tab-item {
+    text-decoration: none;
+    color: #111;
+    padding: 0 100px 18px;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.tab-item:hover {
+    color: #007a3d;
+}
+
+.active-tab {
     color: #007a3d;
     border-bottom: 3px solid #007a3d;
-    padding: 0 100px 18px;
 }
 
 
@@ -264,13 +276,13 @@
     <h1>All Models</h1>
 
     <div class="tabs">
-    <span>
-        <a href="{% url 'home' %}">Model View</a>
-    </span>
+    <a href="{% url 'home' %}" class="tab-item active-tab">
+        Model View
+    </a>
 
-    <span>
-        <a href="{% url 'favourites' %}">Favourites</a>
-    </span>
+    <a href="{% url 'favourites' %}" class="tab-item">
+        Favourites
+    </a>
 </div>
 </section>
 
