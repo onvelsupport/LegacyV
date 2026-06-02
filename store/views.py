@@ -100,19 +100,17 @@ def home(request):
 
     gender = request.GET.get('gender')
     sort = request.GET.get('sort', 'new')
+    favourites = request.session.get('favourites', [])
 
     if gender:
         products = products.filter(gender=gender)
 
     if sort == 'price_low':
         products = products.order_by('price')
-
     elif sort == 'price_high':
         products = products.order_by('-price')
-
     elif sort == 'name':
         products = products.order_by('name')
-
     else:
         products = products.order_by('-created_at')
 
@@ -120,6 +118,7 @@ def home(request):
         'products': products,
         'current_sort': sort,
         'current_gender': gender,
+        'favourites': favourites,
     })
 
 def favourites(request):
