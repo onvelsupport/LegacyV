@@ -38,6 +38,44 @@
     box-sizing: border-box;
   }
 
+.payment-popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.payment-popup {
+    background: #fff;
+    width: 90%;
+    max-width: 420px;
+    padding: 35px;
+    text-align: center;
+}
+
+.payment-popup h2 {
+    margin-bottom: 25px;
+}
+
+.payment-btn {
+    display: block;
+    background: #000;
+    color: #fff;
+    text-decoration: none;
+    padding: 16px;
+    margin-bottom: 14px;
+}
+
+.cancel-btn {
+    display: block;
+    color: #000;
+    margin-top: 15px;
+    text-decoration: underline;
+}
+
   .summary-box {
     background: white;
     padding: 25px;
@@ -194,5 +232,25 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 </script>
+
+{% if show_payment_popup %}
+<div class="payment-popup-overlay">
+    <div class="payment-popup">
+        <h2>Choose Payment Method</h2>
+
+        <a href="{% url 'stripe_checkout' order.id %}" class="payment-btn">
+            Pay with Card / Apple Pay
+        </a>
+
+        <a href="{% url 'square_checkout' order.id %}" class="payment-btn">
+            Pay with Square
+        </a>
+
+        <a href="{% url 'checkout' %}" class="cancel-btn">
+            Cancel
+        </a>
+    </div>
+</div>
+{% endif %}
 
 {% endblock %}

@@ -1,255 +1,216 @@
 {% extends 'store/base.html' %}
+{% load static %}
+
+{% block title %}{{ product.name }} | CROWNVII{% endblock %}
 
 {% block extra_css %}
 <style>
-  .product-detail-container {
-    max-width: 1100px;
-    margin: 60px auto;
-    padding: 0 40px 60px;
-  }
-
-  .product-detail {
+.product-page {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 70px 24px 110px;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 50px;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 70px;
     align-items: start;
-  }
+}
 
-  .product-images {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
+.product-gallery {
+    background: #f8f8f8;
+    padding: 50px;
+    text-align: center;
+}
 
-  #mainImage {
+.product-gallery img {
     width: 100%;
-    max-width: 500px;
-    background: #ddd;
-  }
+    max-height: 520px;
+    object-fit: contain;
+}
 
-  .thumbnail-row {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
+.product-info small {
+    letter-spacing: 5px;
+    color: #666;
+    font-size: 12px;
+}
 
-  .thumbnail-row img {
-    width: 70px;
-    height: 70px;
-    object-fit: cover;
-    cursor: pointer;
+.product-info h1 {
+    font-size: 48px;
+    margin: 14px 0 18px;
+}
+
+.product-price {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 28px;
+}
+
+.product-description {
+    color: #555;
+    line-height: 1.8;
+    font-size: 15px;
+    margin-bottom: 35px;
+}
+
+.size-box {
+    margin-bottom: 28px;
+}
+
+.size-box label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.size-box select {
+    width: 100%;
+    padding: 15px;
     border: 1px solid #ddd;
-  }
+    background: white;
+}
 
-  .thumbnail-row img:hover {
-    border: 1px solid black;
-  }
-
-  .product-info {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .product-info h1 {
-    font-size: 28px;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-    font-family: 'Courier New', monospace;
-  }
-
-  .price {
-    font-size: 20px;
-    margin-bottom: 20px;
-    font-family: 'Courier New', monospace;
-  }
-
-  .size-section {
-    margin-bottom: 20px;
-  }
-
-  .size-label {
-    font-size: 14px;
-    margin-bottom: 10px;
-    text-transform: uppercase;
-    font-family: 'Courier New', monospace;
-  }
-
-  .size-options {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-
-  .size-options input {
-    display: none;
-  }
-
-  .size-options span {
-    width: 65px;
-    height: 65px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid black;
-    font-family: 'Courier New', monospace;
-  }
-
-  .size-options input:checked + span {
-    background: black;
-    color: white;
-  }
-
-  .size-disabled {
-    width: 65px;
-    height: 65px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid #ccc;
-    color: #999;
-  }
-
-  .status {
-    margin: 10px 0 20px;
-    font-size: 14px;
-    text-transform: uppercase;
-    font-family: 'Courier New', monospace;
-  }
-
-  .buy-btn {
-    width: 240px;
-    padding: 14px;
-    background: black;
+.add-btn {
+    width: 100%;
+    background: #007a3d;
     color: white;
     border: none;
-    font-family: 'Courier New', monospace;
-    margin-bottom: 25px;
-  }
+    padding: 17px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+}
 
-  .buy-btn:disabled {
+.sold-out-btn {
+    width: 100%;
     background: #999;
-  }
+    color: white;
+    border: none;
+    padding: 17px;
+    font-size: 15px;
+    font-weight: 700;
+}
 
-  .description {
+.product-note {
+    margin-top: 25px;
     font-size: 14px;
-    text-transform: uppercase;
-    font-family: 'Courier New', monospace;
+    color: #666;
     line-height: 1.7;
-  }
+}
 
-  @media (max-width: 800px) {
-    .product-detail {
-      grid-template-columns: 1fr;
-      gap: 25px;
+.details-panel {
+    margin-top: 45px;
+    border-top: 1px solid #ddd;
+}
+
+.detail-row {
+    padding: 20px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.detail-row h3 {
+    font-size: 16px;
+    margin: 0 0 8px;
+}
+
+.detail-row p {
+    margin: 0;
+    color: #555;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+@media (max-width: 900px) {
+    .product-page {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        padding: 40px 18px 80px;
     }
 
-    .product-detail-container {
-      padding: 0 20px;
+    .product-gallery {
+        padding: 30px;
     }
 
     .product-info h1 {
-      font-size: 22px;
+        font-size: 34px;
     }
-  }
+
+    .product-gallery img {
+        max-height: 360px;
+    }
+}
 </style>
 {% endblock %}
 
-
 {% block content %}
-<div class="product-detail-container">
-  <div class="product-detail">
 
-    <!-- IMAGES -->
-    <div class="product-images">
-      <img id="mainImage" src="{{ product.image.url }}" alt="{{ product.name }}">
+<section class="product-page">
 
-      <div class="thumbnail-row">
-        <img src="{{ product.image.url }}" onclick="changeImage(this)">
-
-        {% for img in product.images.all %}
-          <img src="{{ img.image.url }}" onclick="changeImage(this)">
-        {% endfor %}
-      </div>
-    </div>
-
-    <!-- PRODUCT INFO -->
-    <div class="product-info">
-
-      <!-- NAME -->
-      <h1>{{ product.name }}</h1>
-
-      <!-- PRICE -->
-      <p class="price">£{{ product.price }}</p>
-
-      {% if product.sold_out %}
-
-        <!-- SIZES -->
-        {% if product.sizes.exists %}
-        <div class="size-section">
-          <p class="size-label">SELECT SIZE</p>
-          <div class="size-options">
-            {% for size in product.sizes.all %}
-              <span class="size-disabled">{{ size.size }}</span>
-            {% endfor %}
-          </div>
-        </div>
-        {% endif %}
-
-        <!-- STATUS -->
-        <p class="status">SOLD OUT</p>
-
-        <!-- BUTTON -->
-        <button class="buy-btn" disabled>SOLD OUT</button>
-
-      {% else %}
-
-        <form method="post" action="{% url 'add_to_cart' product.id %}">
-          {% csrf_token %}
-
-          <!-- SIZES -->
-          {% if product.sizes.exists %}
-          <div class="size-section">
-            <p class="size-label">SELECT SIZE</p>
-            <div class="size-options">
-              {% for size in product.sizes.all %}
-                {% if size.stock > 0 %}
-                  <label>
-                    <input type="radio" name="size" value="{{ size.size }}" required>
-                    <span>{{ size.size }}</span>
-                  </label>
-                {% else %}
-                  <span class="size-disabled">{{ size.size }}</span>
-                {% endif %}
-              {% endfor %}
-            </div>
-          </div>
-          {% endif %}
-
-          <!-- STATUS -->
-          <p class="status">AVAILABLE</p>
-
-          <!-- BUTTON -->
-          <button type="submit" class="buy-btn">ADD TO CART</button>
-        </form>
-
-      {% endif %}
-
-      <!-- DESCRIPTION (LAST) -->
-      <p class="description">
-        {% if product.description %}
-          {{ product.description }}
+    <div class="product-gallery">
+        {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
         {% else %}
-          NO DESCRIPTION AVAILABLE.
+            <div style="height:420px;display:flex;align-items:center;justify-content:center;">
+                CROWNVII
+            </div>
         {% endif %}
-      </p>
-
     </div>
-  </div>
-</div>
 
-<script>
-function changeImage(el) {
-  document.getElementById("mainImage").src = el.src;
-}
-</script>
+    <div class="product-info">
+        <small>CROWNVII WATCH</small>
+
+        <h1>{{ product.name }}</h1>
+
+        <p class="product-price">£{{ product.price }}</p>
+
+        <p class="product-description">
+            {{ product.description }}
+        </p>
+
+        {% if product.sold_out %}
+            <button class="sold-out-btn" disabled>Sold Out</button>
+        {% else %}
+            <form method="post" action="{% url 'add_to_cart' product.id %}">
+                {% csrf_token %}
+
+                {% if product.sizes.exists %}
+                    <div class="size-box">
+                        <label for="size">Select Size</label>
+                        <select name="size" id="size" required>
+                            <option value="">Choose an option</option>
+                            {% for size in product.sizes.all %}
+                                {% if size.stock > 0 %}
+                                    <option value="{{ size.size }}">{{ size.size }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                {% endif %}
+
+                <button type="submit" class="add-btn">Add to Bag</button>
+            </form>
+        {% endif %}
+
+        <p class="product-note">
+            Secure checkout. Carefully packaged and prepared for dispatch by CROWNVII.
+        </p>
+
+        <div class="details-panel">
+            <div class="detail-row">
+                <h3>Delivery</h3>
+                <p>UK delivery times and options are shown at checkout.</p>
+            </div>
+
+            <div class="detail-row">
+                <h3>Returns</h3>
+                <p>Returns are accepted in line with our refund policy.</p>
+            </div>
+
+            <div class="detail-row">
+                <h3>Support</h3>
+                <p>For help with your order, contact the CROWNVII support team.</p>
+            </div>
+        </div>
+    </div>
+
+</section>
+
 {% endblock %}

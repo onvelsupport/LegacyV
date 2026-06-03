@@ -332,7 +332,13 @@ def checkout_view(request):
                     price=item['product'].price,
                 )
 
-            return redirect('choose_payment_method', order_id=order.id)
+            return render(request, 'store/checkout.html', {
+    'form': form,
+    'cart_items': cart_items,
+    'total': total,
+    'show_payment_popup': True,
+    'order': order,
+})
 
     else:
         form = CheckoutForm()
