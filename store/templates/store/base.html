@@ -126,6 +126,69 @@ main {
     min-height: 70vh;
 }
 
+.payment-choice-page {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    background: #f7f7f7;
+}
+
+.payment-choice-card {
+    background: #fff;
+    max-width: 520px;
+    width: 100%;
+    padding: 45px;
+    text-align: center;
+    border-radius: 18px;
+    box-shadow: 0 12px 35px rgba(0,0,0,0.08);
+}
+
+.payment-choice-card h1 {
+    margin-bottom: 12px;
+    font-size: 34px;
+}
+
+.payment-choice-card p {
+    color: #666;
+    margin-bottom: 35px;
+}
+
+.payment-options {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.payment-btn {
+    display: block;
+    padding: 16px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 700;
+    color: #fff;
+}
+
+.payment-btn.stripe {
+    background: #635bff;
+}
+
+.payment-btn.square {
+    background: #111;
+}
+
+.payment-btn:hover {
+    opacity: 0.9;
+}
+
+.back-link {
+    display: inline-block;
+    margin-top: 25px;
+    color: #111;
+    text-decoration: none;
+}
+
 /* FOOTER */
 
 footer {

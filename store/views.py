@@ -271,6 +271,16 @@ def faq(request):
     return render(request, 'store/faq.html')
 
 
+def choose_payment_method(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+
+    if order.paid:
+        return redirect('order_success')
+
+    return render(request, 'store/choose_payment.html', {
+        'order': order
+    })
+
 def checkout_view(request):
     cart = request.session.get('cart', {})
     cart_items = []
@@ -318,52 +328,7 @@ def checkout_view(request):
                     price=item['product'].price,
                 )
 
-            line_items = []
-
-            for item in cart_items:
-                product_name = item['product'].name
-
-                if item['size']:
-                    product_name = f"{product_name} - Size {item['size']}"
-
-                line_items.append({
-                    'price_data': {
-                        'currency': 'gbp',
-                        'product_data': {
-                            'name': product_name,
-                        },
-                        'unit_amount': int(item['product'].price * 100),
-                    },
-                    'quantity': item['quantity'],
-                })
-
-            try:
-                checkout_session = stripe.checkout.Session.create(
-                    mode='payment',
-                    line_items=line_items,
-                    success_url=request.build_absolute_uri('/checkout/success/') + '?session_id={CHECKOUT_SESSION_ID}',
-                    cancel_url=request.build_absolute_uri('/checkout/'),
-                    customer_email=form.cleaned_data['email'],
-                    metadata={
-                        'order_id': str(order.id),
-                        'customer_name': form.cleaned_data['full_name'],
-                    },
-                )
-
-                order.stripe_session_id = checkout_session.id
-                order.save()
-
-                return redirect(checkout_session.url, code=303)
-
-            except stripe.error.StripeError as e:
-                order.delete()
-
-                return render(request, 'store/checkout.html', {
-                    'form': form,
-                    'cart_items': cart_items,
-                    'total': total,
-                    'error': str(e),
-                })
+            return redirect('choose_payment_method', order_id=order.id)
 
     else:
         form = CheckoutForm()

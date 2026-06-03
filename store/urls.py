@@ -29,4 +29,8 @@ urlpatterns = [
     path('search/', views.search, name='search'),
     path('favourites/', views.favourites, name='favourites'),
     path('favourite/toggle/<int:product_id>/', views.toggle_favourite, name='toggle_favourite'),
+
+    path('checkout/payment/<int:order_id>/', views.choose_payment_method, name='choose_payment_method'),
+    path('checkout/stripe/<int:order_id>/', views.stripe_checkout, name='stripe_checkout'),
+    path('checkout/square/<int:order_id>/', views.square_checkout, name='square_checkout'),     
 ]
