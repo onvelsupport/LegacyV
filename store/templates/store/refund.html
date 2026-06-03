@@ -1,47 +1,148 @@
 {% extends 'store/base.html' %}
 
+{% block title %}Refund Policy | CROWNVII{% endblock %}
+
 {% block extra_css %}
 <style>
-.page-title {
-  text-align: center;
-  font-family: 'Courier New', cursive;
-  font-size: 36px;
-  margin-top: 40px;
+.refund-page {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 80px 24px 120px;
 }
 
-.container {
-  max-width: 900px;
-  margin: 80px auto;
-  padding: 20px;
-  text-align: center;
+.refund-header {
+    text-align: center;
+    margin-bottom: 60px;
 }
 
-.container p {
-  font-size: 18px;
-  line-height: 1.8;
-  text-transform: uppercase;
-  margin-bottom: 30px;
+.refund-header small {
+    display: block;
+    letter-spacing: 6px;
+    font-size: 13px;
+    color: #666;
 }
 
-.bold {
-  font-weight: bold;
+.refund-header h1 {
+    margin-top: 12px;
+    font-size: 56px;
+}
+
+.refund-section {
+    margin-bottom: 40px;
+}
+
+.refund-section h2 {
+    font-size: 22px;
+    margin-bottom: 12px;
+}
+
+.refund-section p,
+.refund-section li {
+    font-size: 15px;
+    line-height: 1.8;
+    color: #555;
+}
+
+.refund-section ul {
+    padding-left: 20px;
+}
+
+@media (max-width: 768px) {
+    .refund-page {
+        padding: 50px 20px 80px;
+    }
+
+    .refund-header h1 {
+        font-size: 38px;
+    }
+
+    .refund-section h2 {
+        font-size: 18px;
+    }
+
+    .refund-section p,
+    .refund-section li {
+        font-size: 14px;
+    }
 }
 </style>
 {% endblock %}
 
 {% block content %}
 
-<h1 class="page-title">REFUND POLICY</h1>
+<section class="refund-page">
 
-<div class="container">
+    <div class="refund-header">
+        <small>CROWNVII SUPPORT</small>
+        <h1>Refund Policy</h1>
+    </div>
 
-  <p class="bold">ALL SALES ARE FINAL.</p>
+    <div class="refund-section">
+        <h2>1. Returns</h2>
+        <p>
+            We want you to be completely satisfied with your purchase. If you are not happy with your order, you may request a return within 14 days of receiving your item.
+        </p>
+    </div>
 
-  <p>
-    IF YOUR ORDER IS DEFECTIVE, INCORRECT, OR INCOMPLETE PLEASE CONTACT
-    HELLOHUSTLE123@GMAIL.COM WITHIN 48 HOURS OF DELIVERY SO WE MAY APPROPRIATELY REMEDY THE ISSUE FOR YOU.
-  </p>
+    <div class="refund-section">
+        <h2>2. Return Conditions</h2>
+        <ul>
+            <li>The item must be unused and unworn.</li>
+            <li>The item must be returned in its original packaging.</li>
+            <li>All protective films, tags, accessories, and documentation must be included.</li>
+            <li>Proof of purchase must be provided.</li>
+        </ul>
+    </div>
 
-</div>
+    <div class="refund-section">
+        <h2>3. Non-Returnable Items</h2>
+        <p>
+            We cannot accept returns for items that have been worn, damaged, altered, or returned without their original packaging unless the item arrived faulty.
+        </p>
+    </div>
+
+    <div class="refund-section">
+        <h2>4. Faulty or Damaged Items</h2>
+        <p>
+            If your order arrives damaged or defective, please contact CROWNVII within 48 hours of delivery. We may request photographs of the item and packaging to assist with our investigation.
+        </p>
+    </div>
+
+    <div class="refund-section">
+        <h2>5. Refund Process</h2>
+        <p>
+            Once your returned item has been received and inspected, we will notify you of the outcome. Approved refunds will be issued to the original payment method used at checkout.
+        </p>
+    </div>
+
+    <div class="refund-section">
+        <h2>6. Refund Times</h2>
+        <p>
+            Refunds are typically processed within 5–10 business days after approval. Processing times may vary depending on your payment provider or bank.
+        </p>
+    </div>
+
+    <div class="refund-section">
+        <h2>7. Shipping Costs</h2>
+        <p>
+            Original shipping charges are non-refundable unless the return is due to an error on our part or the item was received damaged or defective.
+        </p>
+    </div>
+
+    <div class="refund-section">
+        <h2>8. Cancellations</h2>
+        <p>
+            Orders may be cancelled before dispatch. Once an order has been shipped, it must follow the standard returns procedure outlined above.
+        </p>
+    </div>
+
+    <div class="refund-section">
+        <h2>9. Contact Us</h2>
+        <p>
+            If you have any questions regarding returns, refunds, or exchanges, please contact our support team through the Contact page.
+        </p>
+    </div>
+
+</section>
 
 {% endblock %}

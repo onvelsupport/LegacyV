@@ -1,0 +1,25 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block title %}Choose Payment Method | CROWNVII{% endblock %}
+
+{% block content %}
+<section class="payment-choice-page">
+    <div class="payment-choice-card">
+        <h1>Choose Payment Method</h1>
+        <p>Select how you would like to complete your order.</p>
+
+        <div class="payment-options">
+            <a href="{% url 'stripe_checkout' order.id %}" class="payment-btn stripe">
+                Pay with Stripe
+            </a>
+
+            <a href="{% url 'square_checkout' order.id %}" class="payment-btn square">
+                Pay with Square
+            </a>
+        </div>
+
+        <a href="{% url 'cart' %}" class="back-link">← Back to Cart</a>
+    </div>
+</section>
+{% endblock %}
