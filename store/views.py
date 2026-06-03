@@ -3,6 +3,9 @@ from django.conf import settings
 from decimal import Decimal
 import stripe
 
+import json
+from square.webhooks_helper import WebhooksHelper
+
 from square import Square
 from square.environment import SquareEnvironment
 import uuid
@@ -544,3 +547,65 @@ def square_checkout(request, order_id):
     )
 
     return redirect(result.payment_link.url)
+
+@csrf_exempt
+def square_webhook(request):
+    if request.method != "POST":
+        return HttpResponse(status=405)
+
+    signature = request.headers.get("x-square-hmacsha256-signature")
+    body = request.body.decode("utf-8")
+
+    is_valid = WebhooksHelper.verify_signature(
+        request_body=body,
+        signature_header=signature,
+        signature_key=settings.SQUARE_WEBHOOK_SIGNATURE_KEY,
+        notification_url=settings.SQUARE_WEBHOOK_URL,
+    )
+
+    if not is_valid:
+        return HttpResponse(status=403)
+
+    event = json.loads(body)
+    event_type = event.get("type")
+
+    if event_type == "payment.created" or event_type == "payment.updated":
+        payment = event.get("data", {}).get("object", {}).get("payment", {})
+
+        order_id = payment.get("order_id")
+
+        # Square order_id is not your Django order id,
+        # so we need reference_id from the Square order.
+        square_order_id = payment.get("order_id")
+
+        if square_order_id:
+            environment = SquareEnvironment.SANDBOX
+            if settings.SQUARE_ENVIRONMENT == "production":
+                environment = SquareEnvironment.PRODUCTION
+
+            client = Square(
+                token=settings.SQUARE_ACCESS_TOKEN,
+                environment=environment
+            )
+
+            square_order = client.orders.get(order_id=square_order_id)
+
+            reference_id = square_order.order.reference_id
+
+            if reference_id:
+                try:
+                    order = Order.objects.get(id=reference_id)
+
+                    if not order.is_paid:
+                        order.is_paid = True
+                        order.save()
+
+                        try:
+                            send_order_confirmation_email(order, {})
+                        except Exception as e:
+                            print("Square email failed:", str(e))
+
+                except Order.DoesNotExist:
+                    print("Order not found:", reference_id)
+
+    return HttpResponse(status=200)

@@ -124,6 +124,12 @@ SQUARE_ACCESS_TOKEN = os.getenv("SQUARE_ACCESS_TOKEN")
 SQUARE_LOCATION_ID = os.getenv("SQUARE_LOCATION_ID")
 SQUARE_ENVIRONMENT = os.getenv("SQUARE_ENVIRONMENT", "production")
 
+SQUARE_WEBHOOK_SIGNATURE_KEY = os.getenv("SQUARE_WEBHOOK_SIGNATURE_KEY")
+SQUARE_WEBHOOK_URL = os.getenv(
+    "SQUARE_WEBHOOK_URL",
+    "https://crownvii-1.onrender.com/square/webhook/"
+)
+
 
 RESEND_API_KEY = os.getenv("RESEND_API_KEY")
 DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "crownvii <orders@crownvii.shop>")
