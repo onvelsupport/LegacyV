@@ -1,13 +1,112 @@
 {% extends 'store/base.html' %}
 
+{% block title %}Order Confirmed | CROWNVII{% endblock %}
+
+{% block extra_css %}
+<style>
+.success-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 90px 24px 120px;
+    text-align: center;
+}
+
+.success-icon {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 30px;
+    border-radius: 50%;
+    background: #007a3d;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 34px;
+}
+
+.success-page small {
+    display: block;
+    letter-spacing: 6px;
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 12px;
+}
+
+.success-page h1 {
+    font-size: 56px;
+    margin: 0 0 20px;
+}
+
+.success-page p {
+    max-width: 620px;
+    margin: 0 auto 18px;
+    font-size: 16px;
+    line-height: 1.8;
+    color: #555;
+}
+
+.success-actions {
+    margin-top: 45px;
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+
+.success-btn {
+    display: inline-block;
+    padding: 15px 28px;
+    background: #007a3d;
+    color: #fff;
+    font-weight: 700;
+}
+
+.success-btn.secondary {
+    background: #111;
+}
+
+@media (max-width: 768px) {
+    .success-page {
+        padding: 60px 20px 90px;
+    }
+
+    .success-page h1 {
+        font-size: 38px;
+    }
+
+    .success-actions {
+        flex-direction: column;
+    }
+}
+</style>
+{% endblock %}
+
 {% block content %}
-<div style="max-width: 800px; margin: 80px auto; text-align: center; padding: 0 20px 60px;">
-  <h1 style="font-size: 36px; text-transform: uppercase;">Order Successful</h1>
-  <p style="font-size: 14px; text-transform: uppercase;">
-    Thank you for your order. Your checkout has been completed successfully.
-  </p>
-  <a href="{% url 'home' %}" style="display:inline-block; margin-top:20px; padding:14px 28px; background:black; color:white; text-decoration:none; text-transform:uppercase;">
-    Back to Shop
-  </a>
-</div>
+
+<section class="success-page">
+
+    <div class="success-icon">✓</div>
+
+    <small>CROWNVII</small>
+    <h1>Order Confirmed</h1>
+
+    <p>
+        Thank you for your purchase. Your order has been received successfully.
+    </p>
+
+    <p>
+        A confirmation email will be sent to you shortly with your order details.
+    </p>
+
+    <p>
+        Our team will begin processing your CROWNVII timepiece and prepare it for dispatch.
+    </p>
+
+    <div class="success-actions">
+        <a href="{% url 'home' %}" class="success-btn">Continue Shopping</a>
+        <a href="{% url 'contact' %}" class="success-btn secondary">Contact Support</a>
+    </div>
+
+</section>
+
 {% endblock %}
