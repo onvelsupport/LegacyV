@@ -239,7 +239,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <h2>Choose Payment Method</h2>
 
         <a href="{% url 'stripe_checkout' order.id %}" class="payment-btn">
-            Pay with Card / Apple Pay
+            Pay with Stripe
         </a>
 
         <a href="{% url 'square_checkout' order.id %}" class="payment-btn">
