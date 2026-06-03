@@ -274,8 +274,8 @@ def faq(request):
 def choose_payment_method(request, order_id):
     order = get_object_or_404(Order, id=order_id)
 
-    if order.paid:
-        return redirect('order_success')
+    if order.is_paid:
+        return redirect('checkout_success')
 
     return render(request, 'store/choose_payment.html', {
         'order': order
@@ -436,3 +436,51 @@ def toggle_favourite(request, product_id):
 
     return redirect(request.META.get('HTTP_REFERER', 'home'))
 
+def stripe_checkout(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+
+    if order.is_paid:
+        return redirect('checkout_success')
+
+    line_items = []
+
+    for item in order.items.all():
+        product_name = item.product.name
+
+        if item.size:
+            product_name = f"{product_name} - Size {item.size}"
+
+        line_items.append({
+            'price_data': {
+                'currency': 'gbp',
+                'product_data': {
+                    'name': product_name,
+                },
+                'unit_amount': int(item.price * 100),
+            },
+            'quantity': item.quantity,
+        })
+
+    try:
+        checkout_session = stripe.checkout.Session.create(
+            mode='payment',
+            line_items=line_items,
+            success_url=request.build_absolute_uri('/checkout/success/') + '?session_id={CHECKOUT_SESSION_ID}',
+            cancel_url=request.build_absolute_uri(f'/checkout/payment/{order.id}/'),
+            customer_email=order.email,
+            metadata={
+                'order_id': str(order.id),
+                'customer_name': order.full_name,
+            },
+        )
+
+        order.stripe_session_id = checkout_session.id
+        order.save()
+
+        return redirect(checkout_session.url, code=303)
+
+    except stripe.error.StripeError as e:
+        return render(request, 'store/choose_payment.html', {
+            'order': order,
+            'error': str(e),
+        })
