@@ -3,6 +3,9 @@ from django.conf import settings
 from decimal import Decimal
 import stripe
 
+from square.client import Client
+import uuid
+
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import EmailMultiAlternatives
@@ -484,3 +487,57 @@ def stripe_checkout(request, order_id):
             'order': order,
             'error': str(e),
         })
+    
+
+def square_checkout(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+
+    if order.is_paid:
+        return redirect('checkout_success')
+
+    client = Client(
+        access_token=settings.SQUARE_ACCESS_TOKEN,
+        environment=getattr(settings, 'SQUARE_ENVIRONMENT', 'sandbox')
+    )
+
+    line_items = []
+
+    for item in order.items.all():
+        product_name = item.product.name
+
+        if item.size:
+            product_name = f"{product_name} - Size {item.size}"
+
+        line_items.append({
+            "name": product_name,
+            "quantity": str(item.quantity),
+            "base_price_money": {
+                "amount": int(item.price * 100),
+                "currency": "GBP"
+            }
+        })
+
+    result = client.checkout.create_payment_link(
+        body={
+            "idempotency_key": str(uuid.uuid4()),
+            "order": {
+                "location_id": settings.SQUARE_LOCATION_ID,
+                "line_items": line_items
+            },
+            "checkout_options": {
+                "redirect_url": request.build_absolute_uri('/checkout/success/')
+            },
+            "pre_populated_data": {
+                "buyer_email": order.email
+            }
+        }
+    )
+
+    if result.is_success():
+        payment_link = result.body["payment_link"]
+        return redirect(payment_link["url"])
+
+    return render(request, 'store/choose_payment.html', {
+        'order': order,
+        'error': result.errors
+    })

@@ -119,5 +119,11 @@ STRIPE_PUBLIC_KEY = os.getenv("STRIPE_PUBLIC_KEY")
 STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET")
 
 
+#square
+SQUARE_ACCESS_TOKEN = os.environ.get('SQUARE_ACCESS_TOKEN')
+SQUARE_LOCATION_ID = os.environ.get('SQUARE_LOCATION_ID')
+SQUARE_ENVIRONMENT = os.environ.get('SQUARE_ENVIRONMENT', 'sandbox')
+
+
 RESEND_API_KEY = os.getenv("RESEND_API_KEY")
 DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "crownvii <orders@crownvii.shop>")
