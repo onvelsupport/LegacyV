@@ -564,11 +564,15 @@ def square_checkout(request, order_id):
 
 @csrf_exempt
 def square_webhook(request):
+    print("Square webhook hit")
+
     if request.method != "POST":
         return HttpResponse(status=405)
 
     body = request.body.decode("utf-8")
     signature = request.headers.get("x-square-hmacsha256-signature", "")
+
+    print("Square signature received:", bool(signature))
 
     message = settings.SQUARE_WEBHOOK_URL + body
 
@@ -582,15 +586,21 @@ def square_webhook(request):
 
     if not hmac.compare_digest(expected_signature, signature):
         print("Invalid Square webhook signature")
+        print("Webhook URL used:", settings.SQUARE_WEBHOOK_URL)
         return HttpResponse(status=403)
 
     event = json.loads(body)
     event_type = event.get("type")
 
+    print("Square event type:", event_type)
+
     if event_type not in ["payment.created", "payment.updated"]:
         return HttpResponse(status=200)
 
     payment = event.get("data", {}).get("object", {}).get("payment", {})
+
+    print("Square payment status:", payment.get("status"))
+    print("Square payment order_id:", payment.get("order_id"))
 
     if payment.get("status") != "COMPLETED":
         return HttpResponse(status=200)
@@ -622,12 +632,15 @@ def square_webhook(request):
     square_order = square_order_data.get("order", {})
     django_order_id = square_order.get("reference_id")
 
+    print("Django order ID from Square reference_id:", django_order_id)
+
     if not django_order_id:
         print("No Django order ID found in Square reference_id")
         return HttpResponse(status=200)
 
     try:
         order = Order.objects.get(id=django_order_id)
+        print("Django order found:", order.order_number)
 
         if not order.is_paid:
             order.is_paid = True
