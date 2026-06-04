@@ -512,6 +512,56 @@ def stripe_checkout(request, order_id):
         })
     
 
+def square_checkout(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+
+    if order.is_paid:
+        return redirect('checkout_success')
+
+    environment = SquareEnvironment.SANDBOX
+    if settings.SQUARE_ENVIRONMENT == "production":
+        environment = SquareEnvironment.PRODUCTION
+
+    client = Square(
+        token=settings.SQUARE_ACCESS_TOKEN,
+        environment=environment
+    )
+
+    line_items = []
+
+    for item in order.items.all():
+        product_name = item.product.name
+
+        if item.size:
+            product_name = f"{product_name} - Size {item.size}"
+
+        line_items.append({
+            "name": product_name,
+            "quantity": str(item.quantity),
+            "base_price_money": {
+                "amount": int(item.price * 100),
+                "currency": "GBP"
+            }
+        })
+
+    result = client.checkout.payment_links.create(
+        idempotency_key=str(uuid.uuid4()),
+        order={
+            "location_id": settings.SQUARE_LOCATION_ID,
+            "line_items": line_items,
+            "reference_id": str(order.id),
+        },
+        checkout_options={
+            "redirect_url": request.build_absolute_uri("/checkout/success/")
+        },
+        pre_populated_data={
+            "buyer_email": order.email
+        }
+    )
+
+    return redirect(result.payment_link.url)
+
+
 @csrf_exempt
 def square_webhook(request):
     if request.method != "POST":
