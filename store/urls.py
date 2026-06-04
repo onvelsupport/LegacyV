@@ -35,4 +35,6 @@ urlpatterns = [
     path('checkout/stripe/<int:order_id>/', views.stripe_checkout, name='stripe_checkout'),
     path('checkout/square/<int:order_id>/', views.square_checkout, name='square_checkout'),    
     path('square/webhook/', views.square_webhook, name='square_webhook'), 
+
+    path('test-order-email/', views.test_order_email, name='test_order_email'),
 ]
