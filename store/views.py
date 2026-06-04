@@ -4,7 +4,7 @@ from decimal import Decimal
 import stripe
 
 import json
-from square.webhooks_helper import WebhooksHelper
+from square.utils.webhooks_helper import verify_signature
 
 from square import Square
 from square.environment import SquareEnvironment
@@ -556,12 +556,12 @@ def square_webhook(request):
     signature = request.headers.get("x-square-hmacsha256-signature")
     body = request.body.decode("utf-8")
 
-    is_valid = WebhooksHelper.verify_signature(
-        request_body=body,
-        signature_header=signature,
-        signature_key=settings.SQUARE_WEBHOOK_SIGNATURE_KEY,
-        notification_url=settings.SQUARE_WEBHOOK_URL,
-    )
+    is_valid = verify_signature(
+    request_body=body,
+    signature_header=signature,
+    signature_key=settings.SQUARE_WEBHOOK_SIGNATURE_KEY,
+    notification_url=settings.SQUARE_WEBHOOK_URL,
+)
 
     if not is_valid:
         return HttpResponse(status=403)

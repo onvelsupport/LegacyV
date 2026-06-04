@@ -47,20 +47,22 @@
 }
 
 .thumbnail-row img:hover {
-    border-color: #007a3d;
+    border-color: #111;
 }
 
 .product-info h1 {
     font-size: 32px;
+    font-weight: 600;
     margin: 0 0 18px;
     text-transform: uppercase;
     letter-spacing: 1px;
+    line-height: 1.25;
 }
 
 .price {
     font-size: 22px;
     font-weight: 700;
-    margin-bottom: 28px;
+    margin: 0 0 28px;
 }
 
 .size-section {
@@ -72,6 +74,7 @@
     margin-bottom: 12px;
     text-transform: uppercase;
     font-weight: 700;
+    letter-spacing: 0.8px;
 }
 
 .size-options {
@@ -113,6 +116,7 @@
     text-transform: uppercase;
     font-weight: 700;
     color: #007a3d;
+    letter-spacing: 0.8px;
 }
 
 .status.sold {
@@ -125,25 +129,21 @@
     background: #111;
     color: #fff;
     border: none;
-    font-weight: 700;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
     cursor: pointer;
     margin-bottom: 30px;
 }
 
 .buy-btn:hover {
-    background: #007a3d;
+    opacity: 0.85;
 }
 
 .buy-btn:disabled {
     background: #999;
     cursor: not-allowed;
-}
-
-.description {
-    font-size: 15px;
-    line-height: 1.8;
-    color: #555;
-    margin-bottom: 35px;
 }
 
 .details-panel {
@@ -158,7 +158,9 @@
 .detail-row h3 {
     margin: 0 0 8px;
     font-size: 15px;
+    font-weight: 600;
     text-transform: uppercase;
+    letter-spacing: 0.8px;
 }
 
 .detail-row p {
@@ -193,6 +195,13 @@
 
     .buy-btn {
         width: 100%;
+    }
+
+    .size-options span,
+    .size-disabled {
+        width: 56px;
+        height: 56px;
+        font-size: 13px;
     }
 }
 </style>
@@ -229,7 +238,6 @@
             <p class="price">£{{ product.price }}</p>
 
             {% if product.sold_out %}
-
                 {% if product.sizes.exists %}
                     <div class="size-section">
                         <p class="size-label">Select Size</p>
@@ -246,7 +254,6 @@
                 <button class="buy-btn" disabled>Sold Out</button>
 
             {% else %}
-
                 <form method="post" action="{% url 'add_to_cart' product.id %}">
                     {% csrf_token %}
 
@@ -272,9 +279,7 @@
                     <p class="status">Available</p>
                     <button type="submit" class="buy-btn">Add to Cart</button>
                 </form>
-
             {% endif %}
-
 
             <div class="details-panel">
                 <div class="detail-row">
