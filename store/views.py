@@ -602,7 +602,7 @@ def square_webhook(request):
     print("Square payment status:", payment.get("status"))
     print("Square payment order_id:", payment.get("order_id"))
 
-    if payment.get("status") != "COMPLETED":
+    if payment.get("status") not in ["COMPLETED", "APPROVED"]:
         return HttpResponse(status=200)
 
     square_order_id = payment.get("order_id")
