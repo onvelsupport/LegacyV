@@ -661,7 +661,7 @@ def square_webhook(request):
     return HttpResponse(status=200)
 
 
-def test_order_email(request):
+# def test_order_email(request):
     order = Order.objects.latest('id')
     send_order_confirmation_email(order, {})
     return HttpResponse(f"Test email sent to {order.email}")
