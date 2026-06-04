@@ -86,7 +86,7 @@ def send_order_confirmation_email(order, session):
     context = {
         'order': order,
         'order_items': order_items,
-        'tracking_url': 'https://crownvii.com/contact/',
+        'tracking_url': 'https://crownvii.com/tracking/',
         'payment_method': payment_method_label,
         'subtotal': order.total_price,
         'delivery_cost': 0,
