@@ -77,8 +77,9 @@ def send_order_confirmation_email(order, session):
     order_items = order.items.all()
     payment_method_label = get_payment_method_label(session)
 
-    delivery_start = date.today() + timedelta(days=3)
-    delivery_end = date.today() + timedelta(days=5)
+    delivery_start = date.today() + timedelta(days=1)
+    delivery_end = date.today() + timedelta(days=2)
+    
 
     subject = f"CROWNVII Order Confirmation #{order.order_number}"
 
