@@ -25,6 +25,17 @@
     font-weight: 700;
 }
 
+.old-price {
+    color: #888;
+    text-decoration: line-through;
+    margin-right: 8px;
+}
+
+.new-price {
+    color: #111;
+    font-weight: 700;
+}
+
 .tabs {
     display: flex;
     justify-content: center;
@@ -246,19 +257,19 @@
         <form method="get">
             <input type="hidden" name="sort" value="{{ current_sort }}">
 
-            <select name="gender" onchange="this.form.submit()">
+            <select name="category" onchange="this.form.submit()">
                 <option value="">All Items</option>
-                <option value="men" {% if current_gender == 'men' %}selected{% endif %}>Men's Watches</option>
-                <option value="women" {% if current_gender == 'women' %}selected{% endif %}>Women's Watches</option>
-                <option value="unisex" {% if current_gender == 'unisex' %}selected{% endif %}> Watches</option>
-                <option value="other" {% if current_gender == 'other' %}selected{% endif %}>Other Items</option>
+                <option value="men" {% if current_category == 'men' %}selected{% endif %}>Men's Watches</option>
+                <option value="women" {% if current_category == 'women' %}selected{% endif %}>Women's Watches</option>
+                <option value="unisex" {% if current_category == 'unisex' %}selected{% endif %}>Unisex Watches</option>
+                <option value="accessories" {% if current_category == 'accessories' %}selected{% endif %}>Accessories</option>
             </select>
         </form>
     </div>
 
     <div class="sort-right">
         <form method="get">
-            <input type="hidden" name="gender" value="{{ current_gender }}">
+            <input type="hidden" name="category" value="{{ current_category }}">
 
             <select name="sort" onchange="this.form.submit()">
                 <option value="new" {% if current_sort == 'new' %}selected{% endif %}>New In</option>
@@ -288,7 +299,15 @@
             <a href="{% url 'product_detail' product.slug %}" class="watch-info">
                 <h2>{{ product.name }}</h2>
                 <p>{{ product.description|truncatewords:8 }}</p>
-                <p>£{{ product.price }} ⓘ</p>
+                <p>
+    {% if product.sale_price %}
+        <span class="old-price">£{{ product.price }}</span>
+        <span class="new-price">£{{ product.sale_price }}</span>
+    {% else %}
+        <span class="new-price">£{{ product.price }}</span>
+    {% endif %}
+    ⓘ
+</p>
             </a>
 
             <a href="{% url 'product_detail' product.slug %}" class="watch-img">

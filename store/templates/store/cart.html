@@ -65,6 +65,18 @@
     font-weight: 700;
 }
 
+.old-price {
+    color: #888;
+    text-decoration: line-through;
+    margin-right: 8px;
+    font-weight: 400;
+}
+
+.new-price {
+    color: #111;
+    font-weight: 700;
+}
+
 .cart-actions {
     display: flex;
     flex-direction: column;
@@ -271,7 +283,14 @@
                     <p class="cart-meta">Size: {{ item.size }}</p>
                 {% endif %}
 
-                <p class="cart-price">£{{ item.product.price }}</p>
+                <p class="cart-price">
+    {% if item.product.sale_price %}
+        <span class="old-price">£{{ item.product.price }}</span>
+        <span class="new-price">£{{ item.product.sale_price }}</span>
+    {% else %}
+        <span class="new-price">£{{ item.product.price }}</span>
+    {% endif %}
+</p>
             </div>
 
             <div class="cart-actions">

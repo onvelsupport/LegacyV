@@ -116,17 +116,17 @@ def send_order_confirmation_email(order, session):
 def home(request):
     products = Product.objects.all()
 
-    gender = request.GET.get('gender')
+    category = request.GET.get('category')
     sort = request.GET.get('sort', 'new')
     favourites = request.session.get('favourites', [])
 
-    if gender:
-        products = products.filter(gender=gender)
+    if category:
+        products = products.filter(category=category)
 
     if sort == 'price_low':
-        products = products.order_by('price')
+        products = sorted(products, key=lambda p: p.current_price)
     elif sort == 'price_high':
-        products = products.order_by('-price')
+        products = sorted(products, key=lambda p: p.current_price, reverse=True)
     elif sort == 'name':
         products = products.order_by('name')
     else:
@@ -135,20 +135,24 @@ def home(request):
     return render(request, 'store/index.html', {
         'products': products,
         'current_sort': sort,
-        'current_gender': gender,
+        'current_category': category,
         'favourites': favourites,
     })
 
 def favourites(request):
+    category = request.GET.get('category')
     sort = request.GET.get('sort', 'new')
 
     favourite_ids = request.session.get('favourites', [])
     products = Product.objects.filter(id__in=favourite_ids)
 
+    if category:
+        products = products.filter(category=category)
+
     if sort == 'price_low':
-        products = products.order_by('price')
+        products = sorted(products, key=lambda p: p.current_price)
     elif sort == 'price_high':
-        products = products.order_by('-price')
+        products = sorted(products, key=lambda p: p.current_price, reverse=True)
     elif sort == 'name':
         products = products.order_by('name')
     else:
@@ -158,24 +162,19 @@ def favourites(request):
         'products': products,
         'favourites': favourite_ids,
         'current_sort': sort,
+        'current_category': category,
     })
-
-
-def collection(request):
-    products = Product.objects.all().order_by('-created_at')
-
-    return render(
-        request,
-        'store/collection.html',
-        {
-            'products': products
-        }
-    )
 
 
 def product_detail(request, slug):
     product = get_object_or_404(Product, slug=slug)
-    return render(request, 'store/product_detail.html', {'product': product})
+
+    favourites = request.session.get('favourites', [])
+
+    return render(request, 'store/product_detail.html', {
+        'product': product,
+        'favourites': favourites,
+    })
 
 
 def add_to_cart(request, product_id):
@@ -224,7 +223,7 @@ def cart_view(request):
         quantity = int(item_data['quantity'])
         size = item_data.get('size')
 
-        item_total = product.price * quantity
+        item_total = product.current_price * quantity
         total += item_total
 
         cart_items.append({
@@ -312,7 +311,7 @@ def checkout_view(request):
         quantity = int(item_data['quantity'])
         size = item_data.get('size')
 
-        item_total = product.price * quantity
+        item_total = product.current_price * quantity
         total += item_total
 
         cart_items.append({
@@ -343,7 +342,7 @@ def checkout_view(request):
                     product=item['product'],
                     size=item['size'],
                     quantity=item['quantity'],
-                    price=item['product'].price,
+                    price=item['product'].current_price,
                 )
 
             return render(request, 'store/checkout.html', {
