@@ -7,7 +7,7 @@ class Product(models.Model):
         ('men', 'Men'),
         ('women', 'Women'),
         ('unisex', 'Unisex'),
-        ('giftitems', 'Gift Items'),
+        ('other', 'Other Item'),
     ]
 
     name = models.CharField(max_length=200)

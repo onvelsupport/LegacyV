@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='product',
             name='gender',
-            field=models.CharField(choices=[('men', 'Men'), ('women', 'Women'), ('unisex', 'Unisex'), ('giftitems', 'Gift Items')], default='unisex', max_length=10),
+            field=models.CharField(choices=[('men', 'Men'), ('women', 'Women'), ('unisex', 'Unisex'), ('other', 'Other Items')], default='unisex', max_length=10),
         ),
     ]
