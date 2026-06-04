@@ -10,12 +10,26 @@ Delivery address:
 {{ order.postcode }}
 {{ order.country }}
 
+Estimated Delivery:
+{{ delivery_start }} - {{ delivery_end }}
+
 Items:
 {% for item in order_items %}
 - {{ item.product.name }}{% if item.size %} ({{ item.size }}){% endif %} x {{ item.quantity }} - £{{ item.price }}
 {% endfor %}
 
+Payment Method:
+{{ payment_method }}
+
+Order Total:
+£{{ total }}
+
 Track your order:
 {{ tracking_url }}
 
+We will notify you by email once your order has been dispatched.
+
+Thank you for choosing CROWNVII.
+
 CROWNVII
+https://crownvii.com

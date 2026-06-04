@@ -6,7 +6,6 @@
   <tr>
     <td style="text-align:center;">
 
-      <!-- MAIN CONTAINER -->
       <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;">
 
         <!-- LOGO -->
@@ -35,11 +34,27 @@
         <tr>
           <td style="padding:20px;">
             <p><strong>Delivery to:</strong></p>
+
             <p style="line-height:1.6;">
               {{ order.address }}<br>
               {{ order.city }}<br>
               {{ order.postcode }}<br>
               {{ order.country }}
+            </p>
+
+            <!-- ESTIMATED DELIVERY -->
+            <p style="margin-top:20px;">
+              <strong>Estimated Delivery</strong><br>
+
+              <span style="
+                  display:inline-block;
+                  margin-top:8px;
+                  color:#2a5ea7;
+                  font-size:18px;
+                  font-weight:bold;
+              ">
+                  {{ delivery_start }} - {{ delivery_end }}
+              </span>
             </p>
           </td>
         </tr>
@@ -56,9 +71,9 @@
         <!-- BUTTON -->
         <tr>
           <td style="text-align:center; padding:20px;">
-            <a href="{{ tracking_url }}" 
+            <a href="{{ tracking_url }}"
                style="background:#000; color:#fff; padding:15px 30px; text-decoration:none; display:inline-block;">
-               Track my order
+               Track My Order
             </a>
           </td>
         </tr>
@@ -70,17 +85,15 @@
             <table width="100%">
               <tr>
 
-                <!-- IMAGE -->
                 <td width="120">
                   <img src="{{ item.product.image.url }}" width="100" style="display:block;">
                 </td>
 
-                <!-- DETAILS -->
                 <td>
                   <p style="margin:0;"><strong>{{ item.product.name }}</strong></p>
                   <p style="margin:5px 0;">£{{ item.price }}</p>
                   <p style="margin:5px 0; color:#777;">
-                    {{ item.quantity }} Unit 
+                    {{ item.quantity }} Unit
                     {% if item.size %}| {{ item.size }}{% endif %}
                   </p>
                 </td>
@@ -91,67 +104,67 @@
         </tr>
         {% endfor %}
 
-         <!-- DIVIDER -->
-<tr>
-  <td style="padding:20px 0;">
-    <hr style="border:none; border-top:1px solid #eee;">
-  </td>
-</tr>
+        <!-- DIVIDER -->
+        <tr>
+          <td style="padding:20px 0;">
+            <hr style="border:none; border-top:1px solid #eee;">
+          </td>
+        </tr>
 
-<!-- TOTALS -->
-<tr>
-  <td style="padding:0 20px 20px 20px;">
-    <table width="100%" style="font-size:14px; color:#555;">
+        <!-- TOTALS -->
+        <tr>
+          <td style="padding:0 20px 20px 20px;">
+            <table width="100%" style="font-size:14px; color:#555;">
 
-      <tr>
-        <td style="padding:6px 0;">Payment method</td>
-        <td style="text-align:right; padding:6px 0;">{{ payment_method }}</td>
-      </tr>
+              <tr>
+                <td style="padding:6px 0;">Payment method</td>
+                <td style="text-align:right; padding:6px 0;">{{ payment_method }}</td>
+              </tr>
 
-      <tr>
-        <td style="padding:6px 0;">Subtotal</td>
-        <td style="text-align:right; padding:6px 0;">£{{ subtotal }}</td>
-      </tr>
+              <tr>
+                <td style="padding:6px 0;">Subtotal</td>
+                <td style="text-align:right; padding:6px 0;">£{{ subtotal }}</td>
+              </tr>
 
-      <tr>
-        <td style="padding:6px 0;">Delivery Costs</td>
-        <td style="text-align:right; padding:6px 0;">£{{ delivery_cost }}</td>
-      </tr>
+              <tr>
+                <td style="padding:6px 0;">Delivery Costs</td>
+                <td style="text-align:right; padding:6px 0;">£{{ delivery_cost }}</td>
+              </tr>
 
-      <tr>
-        <td style="padding:6px 0;">Delivery discount</td>
-        <td style="text-align:right; padding:6px 0;">-£{{ delivery_discount }}</td>
-      </tr>
+              <tr>
+                <td style="padding:6px 0;">Delivery Discount</td>
+                <td style="text-align:right; padding:6px 0;">-£{{ delivery_discount }}</td>
+              </tr>
 
-      <tr>
-        <td style="padding:6px 0;">Discount</td>
-        <td style="text-align:right; padding:6px 0;">-£{{ discount }}</td>
-      </tr>
+              <tr>
+                <td style="padding:6px 0;">Discount</td>
+                <td style="text-align:right; padding:6px 0;">-£{{ discount }}</td>
+              </tr>
 
-    </table>
-  </td>
-</tr>
+            </table>
+          </td>
+        </tr>
 
-<!-- TOTAL -->
-<tr>
-  <td style="padding:0 20px 20px 20px;">
-    <table width="100%">
-      <tr>
-        <td style="font-size:16px; font-weight:bold;">TOTAL</td>
-        <td style="text-align:right; font-size:18px; font-weight:bold;">
-          £{{ total }}
-        </td>
-      </tr>
-    </table>
-  </td>
-</tr>
+        <!-- TOTAL -->
+        <tr>
+          <td style="padding:0 20px 20px 20px;">
+            <table width="100%">
+              <tr>
+                <td style="font-size:16px; font-weight:bold;">TOTAL</td>
+                <td style="text-align:right; font-size:18px; font-weight:bold;">
+                  £{{ total }}
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
 
-<!-- BOTTOM DIVIDER -->
-<tr>
-  <td style="padding:10px 0;">
-    <hr style="border:none; border-top:1px solid #eee;">
-  </td>
-</tr>
+        <!-- BOTTOM DIVIDER -->
+        <tr>
+          <td style="padding:10px 0;">
+            <hr style="border:none; border-top:1px solid #eee;">
+          </td>
+        </tr>
 
       </table>
 

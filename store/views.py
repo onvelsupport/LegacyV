@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.conf import settings
+from datetime import date, timedelta
 from decimal import Decimal
 import stripe
 
@@ -76,6 +77,9 @@ def send_order_confirmation_email(order, session):
     order_items = order.items.all()
     payment_method_label = get_payment_method_label(session)
 
+    delivery_start = date.today() + timedelta(days=3)
+    delivery_end = date.today() + timedelta(days=5)
+
     subject = f"CROWNVII Order Confirmation #{order.order_number}"
 
     context = {
@@ -88,6 +92,8 @@ def send_order_confirmation_email(order, session):
         'delivery_discount': 0,
         'discount': 0,
         'total': order.total_price,
+        'delivery_start': delivery_start.strftime("%d %B"),
+        'delivery_end': delivery_end.strftime("%d %B %Y"),
     }
 
     text_content = render_to_string('store/emails/order_confirmation.txt', context)
@@ -100,7 +106,6 @@ def send_order_confirmation_email(order, session):
         "html": html_content,
         "text": text_content,
     })
-
 
 def home(request):
     products = Product.objects.all()
