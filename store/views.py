@@ -358,6 +358,8 @@ def checkout_view(request):
         'total': total,
     })
 
+def tracking(request):
+    return render(request, 'store/tracking.html')
 
 def checkout_success(request):
     request.session['cart'] = {}

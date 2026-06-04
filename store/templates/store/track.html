@@ -1,0 +1,110 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Track Order | CROWNVII{% endblock %}
+
+{% block extra_css %}
+<style>
+.tracking-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 80px 24px 120px;
+    text-align: center;
+}
+
+.tracking-page small {
+    display: block;
+    letter-spacing: 6px;
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 12px;
+}
+
+.tracking-page h1 {
+    font-size: 56px;
+    margin: 0 0 22px;
+}
+
+.tracking-page p {
+    max-width: 600px;
+    margin: 0 auto 40px;
+    font-size: 15px;
+    color: #555;
+    line-height: 1.8;
+}
+
+.tracking-box {
+    background: #f8f8f8;
+    padding: 42px;
+    max-width: 560px;
+    margin: 0 auto;
+}
+
+.tracking-box input {
+    width: 100%;
+    padding: 16px;
+    border: 1px solid #ddd;
+    margin-bottom: 18px;
+    font-size: 14px;
+}
+
+.tracking-box button {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    background: #111;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.tracking-note {
+    margin-top: 35px;
+    font-size: 14px;
+    color: #666;
+}
+
+@media (max-width: 768px) {
+    .tracking-page {
+        padding: 55px 20px 90px;
+    }
+
+    .tracking-page h1 {
+        font-size: 38px;
+    }
+
+    .tracking-box {
+        padding: 28px;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<section class="tracking-page">
+    <small>CROWNVII SUPPORT</small>
+    <h1>Track Your Order</h1>
+
+    <p>
+        Enter your order number or tracking reference below to check the latest status of your CROWNVII delivery.
+    </p>
+
+    <form class="tracking-box" method="get">
+        <input 
+            type="text" 
+            name="order" 
+            placeholder="Enter order number, e.g. CROWNVII00001"
+            required
+        >
+
+        <button type="submit">Track Order</button>
+    </form>
+
+    <p class="tracking-note">
+        Tracking information is sent by email once your order has been processed and dispatched.
+    </p>
+</section>
+
+{% endblock %}

@@ -24,6 +24,7 @@ urlpatterns = [
     path('refund/', views.refund, name='refund'),
     path('privacy/', views.privacy, name='privacy'),
     path('faq/', views.faq, name='faq'),
+    path('tracking/', views.tracking, name='tracking'),
 
 
     path('search/', views.search, name='search'),
