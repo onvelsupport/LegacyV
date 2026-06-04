@@ -312,6 +312,7 @@ footer {
     <a href="{% url 'terms' %}">Terms of Use</a>
     <a href="{% url 'privacy' %}">Privacy Notice</a>
     <a href="{% url 'refund' %}">Refund Policy</a>
+    <a href="{% url 'tracking' %}">Track Order</a>
     <a href="{% url 'contact' %}">Contact</a>
   </div>
 </header>
@@ -372,9 +373,21 @@ footer {
 </footer>
 
 <script>
-  function toggleMenu() {
-    document.getElementById("mobileMenu").classList.toggle("show");
-  }
+const menu = document.getElementById("mobileMenu");
+const menuButton = document.querySelector(".menu-icon");
+
+function toggleMenu() {
+    menu.classList.toggle("show");
+}
+
+document.addEventListener("click", function(event) {
+    if (
+        !menu.contains(event.target) &&
+        !menuButton.contains(event.target)
+    ) {
+        menu.classList.remove("show");
+    }
+});
 </script>
 
 
