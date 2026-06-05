@@ -365,6 +365,20 @@ def checkout_view(request):
 def tracking(request):
     return render(request, 'store/tracking.html')
 
+def tracking_result(request):
+    order_number = request.GET.get("order")
+
+    order_id = order_number.replace("CROWNVII", "")
+
+    try:
+        order = Order.objects.get(id=int(order_id))
+    except:
+        return redirect("tracking")
+
+    return render(request, "store/tracking_result.html", {
+        "order": order
+    })
+
 def checkout_success(request):
     request.session['cart'] = {}
     request.session.modified = True

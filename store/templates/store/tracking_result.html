@@ -1,0 +1,126 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Order Status | CROWNVII{% endblock %}
+
+{% block extra_css %}
+<style>
+.tracking-result {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 80px 24px 120px;
+}
+
+.result-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.result-header small {
+    display: block;
+    letter-spacing: 6px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.result-header h1 {
+    font-size: 52px;
+    margin: 0;
+}
+
+.status-card {
+    background: #f8f8f8;
+    padding: 40px;
+}
+
+.status-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 18px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.status-row:last-child {
+    border-bottom: none;
+}
+
+.label {
+    font-weight: 600;
+}
+
+.success {
+    color: #007a3d;
+    font-weight: 700;
+}
+
+.pending {
+    color: #d68b00;
+    font-weight: 700;
+}
+
+.shipped {
+    color: #007a3d;
+    font-weight: 700;
+}
+
+.track-btn {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 14px 28px;
+    background: #111;
+    color: #fff;
+    text-decoration: none;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="tracking-result">
+
+    <div class="result-header">
+        <small>CROWNVII ORDER TRACKING</small>
+        <h1>Order Status</h1>
+    </div>
+
+    <div class="status-card">
+
+        <div class="status-row">
+            <span class="label">Order Number</span>
+            <span>{{ order.order_number }}</span>
+        </div>
+
+        <div class="status-row">
+            <span class="label">Order Date</span>
+            <span>{{ order.created_at|date:"d M Y" }}</span>
+        </div>
+
+        <div class="status-row">
+            <span class="label">Payment Status</span>
+            <span class="success">
+                {% if order.is_paid %}
+                    Paid
+                {% else %}
+                    Pending
+                {% endif %}
+            </span>
+        </div>
+
+        <div class="status-row">
+            <span class="label">Delivery Status</span>
+            <span class="pending">
+                Processing
+            </span>
+        </div>
+
+        <div class="status-row">
+            <span class="label">Tracking Reference</span>
+            <span>Will be emailed after dispatch</span>
+        </div>
+
+    </div>
+
+    <a href="{% url 'tracking' %}" class="track-btn">
+        Track Another Order
+    </a>
+
+</section>
+{% endblock %}

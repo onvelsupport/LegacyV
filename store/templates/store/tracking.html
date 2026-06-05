@@ -91,7 +91,7 @@
         Enter your order number or tracking reference below to check the latest status of your CROWNVII delivery.
     </p>
 
-    <form class="tracking-box" method="get">
+    <form class="tracking-box" method="get" action="{% url 'tracking_result' %}">
         <input 
             type="text" 
             name="order" 
