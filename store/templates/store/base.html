@@ -372,6 +372,38 @@ footer {
   </div>
 </footer>
 
+<!-- COOKIE BANNER -->
+<div id="cookieBanner" style="
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    max-width: 500px;
+    background: #111;
+    color: #fff;
+    padding: 20px;
+    border-radius: 14px;
+    z-index: 9999;
+    display: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,.2);
+">
+    <p style="margin:0 0 15px; line-height:1.6; font-size:14px;">
+        We use cookies to keep your cart working, improve your shopping experience and enhance website security.
+    </p>
+
+    <button onclick="acceptCookies()" style="
+        background:#fff;
+        color:#111;
+        border:none;
+        padding:12px 20px;
+        border-radius:10px;
+        font-weight:700;
+        cursor:pointer;
+    ">
+        Accept
+    </button>
+</div>
+
 <script>
 const menu = document.getElementById("mobileMenu");
 const menuButton = document.querySelector(".menu-icon");
@@ -386,6 +418,17 @@ document.addEventListener("click", function(event) {
         !menuButton.contains(event.target)
     ) {
         menu.classList.remove("show");
+    }
+});
+
+function acceptCookies() {
+    localStorage.setItem("crownvii_cookie_consent", "accepted");
+    document.getElementById("cookieBanner").style.display = "none";
+}
+
+window.addEventListener("load", function() {
+    if (localStorage.getItem("crownvii_cookie_consent") !== "accepted") {
+        document.getElementById("cookieBanner").style.display = "block";
     }
 });
 </script>
