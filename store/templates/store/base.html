@@ -391,17 +391,31 @@ footer {
         We use cookies to keep your cart working, improve your shopping experience and enhance website security.
     </p>
 
-    <button onclick="acceptCookies()" style="
-        background:#fff;
-        color:#111;
-        border:none;
-        padding:12px 20px;
-        border-radius:10px;
-        font-weight:700;
-        cursor:pointer;
-    ">
-        Accept
-    </button>
+    <div style="display:flex; gap:10px;">
+        <button onclick="acceptCookies()" style="
+            background:#fff;
+            color:#111;
+            border:none;
+            padding:12px 20px;
+            border-radius:10px;
+            font-weight:700;
+            cursor:pointer;
+        ">
+            Accept
+        </button>
+
+        <button onclick="declineCookies()" style="
+            background:transparent;
+            color:#fff;
+            border:1px solid #fff;
+            padding:12px 20px;
+            border-radius:10px;
+            font-weight:700;
+            cursor:pointer;
+        ">
+            Decline
+        </button>
+    </div>
 </div>
 
 <script>
@@ -426,8 +440,15 @@ function acceptCookies() {
     document.getElementById("cookieBanner").style.display = "none";
 }
 
+function declineCookies() {
+    localStorage.setItem("crownvii_cookie_consent", "declined");
+    document.getElementById("cookieBanner").style.display = "none";
+}
+
 window.addEventListener("load", function() {
-    if (localStorage.getItem("crownvii_cookie_consent") !== "accepted") {
+    const consent = localStorage.getItem("crownvii_cookie_consent");
+
+    if (consent !== "accepted" && consent !== "declined") {
         document.getElementById("cookieBanner").style.display = "block";
     }
 });
