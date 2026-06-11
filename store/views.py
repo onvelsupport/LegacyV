@@ -23,7 +23,7 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.template.loader import render_to_string
 
-from .models import Product, ProductSize, Order, OrderItem
+from .models import Product, ProductSize, Order, OrderItem, Invoice
 from .forms import CheckoutForm
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -439,7 +439,7 @@ def stripe_webhook(request):
             session = event["data"]["object"]
             session_id = session["id"]
             metadata = session["metadata"]
-            order_id = metadata["order_id"]
+            order_id = metadata.get("order_id")
 
             print("Session ID:", session_id)
             print("Order ID from metadata:", order_id)
@@ -462,6 +462,14 @@ def stripe_webhook(request):
                 print("Order marked as paid")
             else:
                 print("Order was already marked as paid")
+
+            Invoice.objects.get_or_create(
+                order=order,
+                defaults={
+                    "invoice_number": f"INV-{order.id:05d}"
+                }
+            )
+            print("Invoice created")
 
             try:
                 send_order_confirmation_email(order, session)
@@ -698,11 +706,21 @@ def square_webhook(request):
             order.save()
             print("Square order marked as paid:", order.order_number)
 
+            # Create invoice automatically
+            Invoice.objects.get_or_create(
+                order=order,
+                defaults={
+                    "invoice_number": f"INV-{order.id:05d}"
+                }
+            )
+            print("Square invoice created")
+
             try:
                 send_order_confirmation_email(order, {})
                 print("Square confirmation email sent to:", order.email)
             except Exception as e:
                 print("Square email failed:", str(e))
+
         else:
             print("Square order already paid:", order.order_number)
 
