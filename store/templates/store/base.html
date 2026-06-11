@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}ASCOTW{% endblock %}</title>
+  <title>{% block title %}CROWNVII{% endblock %}</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
 * {
@@ -292,7 +292,7 @@ footer {
   <div class="menu-icon" onclick="toggleMenu()">☰</div>
 
   <a href="{% url 'home' %}" class="brand">
-    <img src="{% static 'store/images/ASCOTW.png' %}" alt="ASCOTW Crown">
+    <img src="{% static 'store/images/CROWNVII.png' %}" alt="CROWNVII Crown">
   </a>
 
 <div class="icons">
@@ -323,11 +323,11 @@ footer {
 
 <footer>
   <div class="footer-logo">
-    <img src="{% static 'store/images/ASCOTW2.png' %}" alt="ASCOTW Crown">
+    <img src="{% static 'store/images/CROWNVII2.png' %}" alt="CROWNVII Crown">
   </div>
 <div class="footer-grid">
     <div class="footer-col">
-      <h3>ASCOTW watches</h3>
+      <h3>CROWNVII watches</h3>
       <a href="#">Crown Classic</a>
       <a href="#">VII Prestige</a>
       <a href="#">Royal Chrono</a>
@@ -336,12 +336,12 @@ footer {
       <h3 style="margin-top:35px;">Watchmaking</h3>
       <a href="#">At the core of excellence</a>
       <a href="#">Behind the crown</a>
-      <a href="#">ASCOTW anatomy</a>
+      <a href="#">CROWNVII anatomy</a>
     </div>
 
     <div class="footer-col">
       <h3>Buying and servicing</h3>
-      <a href="#">Buying from ASCOTW</a>
+      <a href="#">Buying from CROWNVII</a>
       <a href="#">Servicing your watch</a>
       <a href="#">Caring for your Item</a>
       
@@ -436,17 +436,17 @@ document.addEventListener("click", function(event) {
 });
 
 function acceptCookies() {
-    localStorage.setItem("ascotw_cookie_consent", "accepted");
+    localStorage.setItem("crownvii_cookie_consent", "accepted");
     document.getElementById("cookieBanner").style.display = "none";
 }
 
 function declineCookies() {
-    localStorage.setItem("ascotw_cookie_consent", "declined");
+    localStorage.setItem("crownvii_cookie_consent", "declined");
     document.getElementById("cookieBanner").style.display = "none";
 }
 
 window.addEventListener("load", function() {
-    const consent = localStorage.getItem("ascotw_cookie_consent");
+    const consent = localStorage.getItem("crownvii_cookie_consent");
 
     if (consent !== "accepted" && consent !== "declined") {
         document.getElementById("cookieBanner").style.display = "block";

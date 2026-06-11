@@ -13,15 +13,15 @@ DEBUG = os.getenv("DEBUG", "False") == "True"
 ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
-    'ascotw.onrender.com',
-    'www.ascotw.com',
-    'ascotw.com',
+    'crownvii.onrender.com',
+    'www.crownvii.com',
+    'crownvii.com',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://ascotw.onrender.com',
-    'https://www.ascotw.com',
-    'https://ascotw.com',
+    'https://crownvii.onrender.com',
+    'https://www.crownvii.com',
+    'https://crownvii.com',
 ]
 
 INSTALLED_APPS = [
@@ -53,7 +53,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'ascotw.urls'
+ROOT_URLCONF = 'crownvii.urls'
 
 TEMPLATES = [
     {
@@ -72,7 +72,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'ascotw.wsgi.application'
+WSGI_APPLICATION = 'crownvii.wsgi.application'
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 
@@ -125,9 +125,9 @@ SQUARE_ENVIRONMENT = os.getenv("SQUARE_ENVIRONMENT", "production")
 SQUARE_WEBHOOK_SIGNATURE_KEY = os.getenv("SQUARE_WEBHOOK_SIGNATURE_KEY")
 SQUARE_WEBHOOK_URL = os.getenv(
     "SQUARE_WEBHOOK_URL",
-    "https://www.ascotw.com/square/webhook/"
+    "https://www.crownvii.com/square/webhook/"
 )
 
 
 RESEND_API_KEY = os.getenv("RESEND_API_KEY")
-DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "ascotw <orders@ascotw.shop>")
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "crownvii <orders@crownvii.shop>")

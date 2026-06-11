@@ -1,6 +1,6 @@
 Hello {{ order.full_name }},
 
-Thank you for your order from ASCOTW.
+Thank you for your order from CROWNVII.
 
 Order Number: {{ order.order_number }}
 
@@ -29,7 +29,7 @@ Track your order:
 
 We will notify you by email once your order has been dispatched.
 
-Thank you for choosing ASCOTW.
+Thank you for choosing CROWNVII.
 
-ASCOTW
-https://ascotw.com
+CROWNVII
+https://crownvii.com

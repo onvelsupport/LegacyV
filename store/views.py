@@ -86,12 +86,12 @@ def send_order_confirmation_email(order, session):
     delivery_end = date.today() + timedelta(days=2)
     
 
-    subject = f"ASCOTW Order Confirmation #{order.order_number}"
+    subject = f"CROWNVII Order Confirmation #{order.order_number}"
 
     context = {
         'order': order,
         'order_items': order_items,
-        'tracking_url': 'https://ascotw.com/tracking/',
+        'tracking_url': 'https://crownvii.com/tracking/',
         'payment_method': payment_method_label,
         'subtotal': order.total_price,
         'delivery_cost': 0,
@@ -368,7 +368,7 @@ def tracking(request):
 def tracking_result(request):
     order_number = request.GET.get("order")
 
-    order_id = order_number.replace("ASCOTW", "")
+    order_id = order_number.replace("CROWNVII", "")
 
     try:
         order = Order.objects.get(id=int(order_id))
