@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, ProductImage, ProductSize, Order, OrderItem
+from .models import Product, ProductImage, ProductSize, Order, OrderItem, Invoice
 
 
 class ProductImageInline(admin.TabularInline):
@@ -10,6 +10,12 @@ class ProductImageInline(admin.TabularInline):
 class ProductSizeInline(admin.TabularInline):
     model = ProductSize
     extra = 1
+
+@admin.register(Invoice)
+class InvoiceAdmin(admin.ModelAdmin):
+    list_display = ('invoice_number', 'order', 'created_at')
+    search_fields = ('invoice_number', 'order__full_name', 'order__email')
+    readonly_fields = ('created_at',)
 
 
 @admin.register(Product)
