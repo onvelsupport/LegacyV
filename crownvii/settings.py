@@ -11,17 +11,13 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = [
-    '127.0.0.1',
-    'localhost',
-    'crownvii.onrender.com',
-    'www.crownvii.com',
-    'crownvii.com',
+    "legacyv-ksky.onrender.com",
+    "localhost",
+    "127.0.0.1",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://crownvii.onrender.com',
-    'https://www.crownvii.com',
-    'https://crownvii.com',
+    "https://legacyv-ksky.onrender.com",
 ]
 
 INSTALLED_APPS = [
