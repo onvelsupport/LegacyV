@@ -1,6 +1,6 @@
 YOUR ORDER HAS BEEN CANCELLED
 
-Order number:
+Order Number:
 {{ order.order_number }}
 
 This email confirms that your CROWNVII order has been cancelled.
@@ -11,7 +11,10 @@ Cancellation reason:
 Order total:
 £{{ order.total_price }}
 
-If you have already paid, any refund will be processed in line with our refund policy.
+A refund has been issued for your order.
 
-Contact support:
+Depending on your bank or payment provider, the funds should be returned to your original payment method within 1–2 days.
+
+If you do not receive the refund within this timeframe, please contact your bank or payment provider.
+
 https://crownvii.com/contact/
