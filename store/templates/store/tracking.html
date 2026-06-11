@@ -1,6 +1,6 @@
 {% extends 'store/base.html' %}
 
-{% block title %}Track Order | CROWNVII{% endblock %}
+{% block title %}Track Order | LEGACYV{% endblock %}
 
 {% block extra_css %}
 <style>
@@ -84,18 +84,18 @@
 {% block content %}
 
 <section class="tracking-page">
-    <small>CROWNVII SUPPORT</small>
+    <small>LEGACYV SUPPORT</small>
     <h1>Track Your Order</h1>
 
     <p>
-        Enter your order number or tracking reference below to check the latest status of your CROWNVII delivery.
+        Enter your order number or tracking reference below to check the latest status of your LEGACYV delivery.
     </p>
 
     <form class="tracking-box" method="get" action="{% url 'tracking_result' %}">
         <input 
             type="text" 
             name="order" 
-            placeholder="Enter order number, e.g. CROWNVII00001"
+            placeholder="Enter order number, e.g. LEGACYV00001"
             required
         >
 

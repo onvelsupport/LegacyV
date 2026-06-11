@@ -1,4 +1,4 @@
 import os
 from django.core.wsgi import get_wsgi_application
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'crownvii.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'legacyv.settings')
 application = get_wsgi_application()

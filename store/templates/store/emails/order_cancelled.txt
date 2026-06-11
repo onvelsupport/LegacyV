@@ -3,7 +3,7 @@ YOUR ORDER HAS BEEN CANCELLED
 Order Number:
 {{ order.order_number }}
 
-This email confirms that your CROWNVII order has been cancelled.
+This email confirms that your LEGACYV order has been cancelled.
 
 Cancellation reason:
 {{ order.cancellation_reason }}
@@ -17,4 +17,4 @@ Depending on your bank or payment provider, the funds should be returned to your
 
 If you do not receive the refund within this timeframe, please contact your bank or payment provider.
 
-https://crownvii.com/contact/
+https://legacyv.com/contact/

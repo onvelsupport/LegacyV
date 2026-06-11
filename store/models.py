@@ -95,7 +95,7 @@ class Order(models.Model):
 
     @property
     def order_number(self):
-        return f"crownvii{self.id:05d}"
+        return f"legacyv{self.id:05d}"
 
     def __str__(self):
         return f"Order {self.order_number} - {self.full_name}"

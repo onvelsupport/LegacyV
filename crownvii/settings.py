@@ -49,7 +49,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'crownvii.urls'
+ROOT_URLCONF = 'legacyv.urls'
 
 TEMPLATES = [
     {
@@ -68,7 +68,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'crownvii.wsgi.application'
+WSGI_APPLICATION = 'legacyv.wsgi.application'
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 
@@ -121,9 +121,9 @@ SQUARE_ENVIRONMENT = os.getenv("SQUARE_ENVIRONMENT", "production")
 SQUARE_WEBHOOK_SIGNATURE_KEY = os.getenv("SQUARE_WEBHOOK_SIGNATURE_KEY")
 SQUARE_WEBHOOK_URL = os.getenv(
     "SQUARE_WEBHOOK_URL",
-    "https://www.crownvii.com/square/webhook/"
+    "https://www.legacyv.com/square/webhook/"
 )
 
 
 RESEND_API_KEY = os.getenv("RESEND_API_KEY")
-DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "crownvii <orders@crownvii.shop>")
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "legacyv <orders@legacyv.shop>")

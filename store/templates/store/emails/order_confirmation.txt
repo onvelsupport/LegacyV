@@ -1,6 +1,6 @@
 Hello {{ order.full_name }},
 
-Thank you for your order from CROWNVII.
+Thank you for your order from LEGACYV.
 
 Order Number: {{ order.order_number }}
 
@@ -29,7 +29,7 @@ Track your order:
 
 We will notify you by email once your order has been dispatched.
 
-Thank you for choosing CROWNVII.
+Thank you for choosing LEGACYV.
 
-CROWNVII
-https://crownvii.com
+LEGACYV
+https://legacyv.com

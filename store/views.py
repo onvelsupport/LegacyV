@@ -88,12 +88,12 @@ def send_order_confirmation_email(order, session):
     delivery_end = date.today() + timedelta(days=2)
     
 
-    subject = f"CROWNVII Order Confirmation #{order.order_number}"
+    subject = f"LEGACYV Order Confirmation #{order.order_number}"
 
     context = {
         'order': order,
         'order_items': order_items,
-        'tracking_url': 'https://crownvii.com/tracking/',
+        'tracking_url': 'https://legacyv.com/tracking/',
         'payment_method': payment_method_label,
         'subtotal': order.total_price,
         'delivery_cost': 0,
@@ -370,9 +370,9 @@ def tracking(request):
 def tracking_result(request):
     order_number = request.GET.get("order", "").strip().lower()
 
-    # Remove "crownvii" prefix if present
-    if order_number.startswith("crownvii"):
-        order_number = order_number.replace("crownvii", "", 1)
+    # Remove "legacyv" prefix if present
+    if order_number.startswith("legacyv"):
+        order_number = order_number.replace("legacyv", "", 1)
 
     try:
         order = Order.objects.get(id=int(order_number))
@@ -738,7 +738,7 @@ def send_order_cancellation_email(order):
 
     resend.api_key = settings.RESEND_API_KEY
 
-    subject = f"CROWNVII Order Cancelled #{order.order_number}"
+    subject = f"LEGACYV Order Cancelled #{order.order_number}"
 
     context = {
         "order": order,
@@ -776,7 +776,7 @@ def download_invoice(request, order_id):
     y = height - 30 * mm
 
     p.setFont("Helvetica-Bold", 22)
-    p.drawString(25 * mm, y, "CROWNVII INVOICE")
+    p.drawString(25 * mm, y, "LEGACYV INVOICE")
 
     y -= 15 * mm
     p.setFont("Helvetica", 11)
@@ -843,7 +843,7 @@ def download_invoice(request, order_id):
 
     y -= 20 * mm
     p.setFont("Helvetica", 10)
-    p.drawString(25 * mm, y, "Thank you for shopping with CROWNVII.")
+    p.drawString(25 * mm, y, "Thank you for shopping with LEGACYV.")
 
     p.showPage()
     p.save()
