@@ -35,12 +35,38 @@ class OrderItemInline(admin.TabularInline):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('display_order_number', 'full_name', 'email', 'total_price', 'is_paid', 'created_at')
-    search_fields = ('full_name', 'email', 'stripe_session_id')
-    list_filter = ('is_paid', 'created_at')
-    readonly_fields = ('display_order_number', 'created_at', 'stripe_session_id')
+    list_display = (
+        'display_order_number',
+        'full_name',
+        'email',
+        'total_price',
+        'status',
+        'is_paid',
+        'created_at',
+    )
+
+    search_fields = (
+        'full_name',
+        'email',
+        'stripe_session_id',
+        'id',
+    )
+
+    list_filter = (
+        'status',
+        'is_paid',
+        'created_at',
+    )
+
+    readonly_fields = (
+        'display_order_number',
+        'created_at',
+        'stripe_session_id',
+    )
+
     inlines = [OrderItemInline]
 
     def display_order_number(self, obj):
         return obj.order_number
+
     display_order_number.short_description = 'Order Number'
