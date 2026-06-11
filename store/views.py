@@ -11,6 +11,10 @@ import base64
 import urllib.request
 import json
 
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.units import mm
+
 from square import Square
 from square.environment import SquareEnvironment
 import uuid
@@ -747,10 +751,85 @@ def send_order_cancellation_email(order):
 def download_invoice(request, order_id):
     order = get_object_or_404(Order, id=order_id)
 
-    response = HttpResponse(content_type="text/html")
-    response["Content-Disposition"] = f'attachment; filename="invoice-{order.order_number}.html"'
+    response = HttpResponse(content_type="application/pdf")
+    response["Content-Disposition"] = f'attachment; filename="invoice-{order.order_number}.pdf"'
 
-    return render(request, "store/invoice.html", {
-        "order": order,
-        "order_items": order.items.all(),
-    })
+    p = canvas.Canvas(response, pagesize=A4)
+    width, height = A4
+
+    y = height - 30 * mm
+
+    p.setFont("Helvetica-Bold", 22)
+    p.drawString(25 * mm, y, "CROWNVII INVOICE")
+
+    y -= 15 * mm
+    p.setFont("Helvetica", 11)
+    p.drawString(25 * mm, y, f"Invoice Number: {order.order_number}")
+
+    y -= 8 * mm
+    p.drawString(25 * mm, y, f"Order Date: {order.created_at.strftime('%d %B %Y')}")
+
+    y -= 8 * mm
+    p.drawString(25 * mm, y, f"Order Status: {order.get_status_display()}")
+
+    y -= 15 * mm
+    p.setFont("Helvetica-Bold", 13)
+    p.drawString(25 * mm, y, "Customer Details")
+
+    y -= 8 * mm
+    p.setFont("Helvetica", 10)
+    p.drawString(25 * mm, y, order.full_name)
+
+    y -= 6 * mm
+    p.drawString(25 * mm, y, order.email)
+
+    y -= 6 * mm
+    p.drawString(25 * mm, y, order.address)
+
+    y -= 6 * mm
+    p.drawString(25 * mm, y, f"{order.city}, {order.postcode}")
+
+    y -= 6 * mm
+    p.drawString(25 * mm, y, order.country)
+
+    y -= 15 * mm
+    p.setFont("Helvetica-Bold", 13)
+    p.drawString(25 * mm, y, "Order Items")
+
+    y -= 10 * mm
+    p.setFont("Helvetica-Bold", 10)
+    p.drawString(25 * mm, y, "Product")
+    p.drawString(105 * mm, y, "Size")
+    p.drawString(130 * mm, y, "Qty")
+    p.drawString(155 * mm, y, "Price")
+
+    y -= 6 * mm
+    p.line(25 * mm, y, 185 * mm, y)
+
+    y -= 8 * mm
+    p.setFont("Helvetica", 10)
+
+    for item in order.items.all():
+        p.drawString(25 * mm, y, item.product.name[:35])
+        p.drawString(105 * mm, y, item.size or "-")
+        p.drawString(130 * mm, y, str(item.quantity))
+        p.drawString(155 * mm, y, f"£{item.price}")
+
+        y -= 8 * mm
+
+    y -= 8 * mm
+    p.line(25 * mm, y, 185 * mm, y)
+
+    y -= 12 * mm
+    p.setFont("Helvetica-Bold", 14)
+    p.drawString(130 * mm, y, "Total:")
+    p.drawString(155 * mm, y, f"£{order.total_price}")
+
+    y -= 20 * mm
+    p.setFont("Helvetica", 10)
+    p.drawString(25 * mm, y, "Thank you for shopping with CROWNVII.")
+
+    p.showPage()
+    p.save()
+
+    return response
