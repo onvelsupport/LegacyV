@@ -1,0 +1,8 @@
+Your CROWNVII order has been cancelled.
+
+Order Number: {{ order.order_number }}
+
+Reason:
+{{ order.cancellation_reason }}
+
+If this cancellation was unexpected, please contact CROWNVII support.

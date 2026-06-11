@@ -38,5 +38,6 @@ urlpatterns = [
 
     path('tracking/result/', views.tracking_result, name='tracking_result'),
 
+    path("order/<int:order_id>/cancel/", views.cancel_order, name="cancel_order"),
     #path('test-order-email/', views.test_order_email, name='test_order_email'),
 ]

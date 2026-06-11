@@ -3,7 +3,8 @@ from django.conf import settings
 from datetime import date, timedelta
 from decimal import Decimal
 import stripe
-
+from django.utils import timezone
+from django.template.loader import render_to_string
 import hmac
 import hashlib
 import base64
@@ -389,6 +390,31 @@ def collection(request):
         'products': products
     })
 
+def cancel_order(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+
+    if request.method != "POST":
+        return redirect("tracking")
+
+    if order.status == "cancelled":
+        return redirect("tracking")
+
+    reason = request.POST.get("reason", "").strip()
+
+    order.status = "cancelled"
+    order.cancelled_at = timezone.now()
+    order.cancellation_reason = reason or "Cancelled by customer"
+    order.save()
+
+    try:
+        send_order_cancellation_email(order)
+    except Exception as e:
+        print("Cancellation email failed:", str(e))
+
+    return render(request, "store/order_cancelled.html", {
+        "order": order
+    })
+
 @csrf_exempt
 def stripe_webhook(request):
     print("Webhook endpoint hit")
@@ -425,6 +451,7 @@ def stripe_webhook(request):
 
             if not order.is_paid:
                 order.is_paid = True
+                order.status = "paid"
                 order.save()
                 print("Order marked as paid")
             else:
@@ -661,6 +688,7 @@ def square_webhook(request):
 
         if not order.is_paid:
             order.is_paid = True
+            order.status = "paid"
             order.save()
             print("Square order marked as paid:", order.order_number)
 
@@ -682,3 +710,33 @@ def square_webhook(request):
     order = Order.objects.latest('id')
     send_order_confirmation_email(order, {})
     return HttpResponse(f"Test email sent to {order.email}")
+
+def send_order_cancellation_email(order):
+    import resend
+
+    resend.api_key = settings.RESEND_API_KEY
+
+    subject = f"CROWNVII Order Cancelled #{order.order_number}"
+
+    context = {
+        "order": order,
+        "order_items": order.items.all(),
+    }
+
+    text_content = render_to_string(
+        "store/emails/order_cancelled.txt",
+        context
+    )
+
+    html_content = render_to_string(
+        "store/emails/order_cancelled.html",
+        context
+    )
+
+    resend.Emails.send({
+        "from": settings.DEFAULT_FROM_EMAIL,
+        "to": [order.email],
+        "subject": subject,
+        "html": html_content,
+        "text": text_content,
+    })

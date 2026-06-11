@@ -1,0 +1,21 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Order Cancelled | CROWNVII{% endblock %}
+
+{% block content %}
+<div style="max-width:700px;margin:80px auto;text-align:center;padding:0 20px;">
+    <h1>Order Cancelled</h1>
+
+    <p>
+        Your order <strong>{{ order.order_number }}</strong> has been cancelled.
+    </p>
+
+    <p>
+        A cancellation email has been sent to <strong>{{ order.email }}</strong>.
+    </p>
+
+    <a href="{% url 'home' %}" style="display:inline-block;margin-top:25px;background:#000;color:#fff;padding:14px 26px;text-decoration:none;">
+        Return Home
+    </a>
+</div>
+{% endblock %}

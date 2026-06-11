@@ -35,6 +35,7 @@
 .status-row {
     display: flex;
     justify-content: space-between;
+    gap: 25px;
     padding: 18px 0;
     border-bottom: 1px solid #ddd;
 }
@@ -57,9 +58,40 @@
     font-weight: 700;
 }
 
-.shipped {
-    color: #007a3d;
+.cancelled {
+    color: #999;
     font-weight: 700;
+}
+
+.cancel-box {
+    margin-top: 30px;
+    padding: 30px;
+    border: 1px solid #ddd;
+}
+
+.cancel-box h3 {
+    margin-top: 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.cancel-box textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 14px;
+    border: 1px solid #ccc;
+    resize: vertical;
+    box-sizing: border-box;
+}
+
+.cancel-btn {
+    margin-top: 18px;
+    padding: 14px 28px;
+    background: #111;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
 }
 
 .track-btn {
@@ -69,6 +101,21 @@
     background: #111;
     color: #fff;
     text-decoration: none;
+}
+
+@media (max-width: 700px) {
+    .result-header h1 {
+        font-size: 36px;
+    }
+
+    .status-card {
+        padding: 25px;
+    }
+
+    .status-row {
+        flex-direction: column;
+        gap: 6px;
+    }
 }
 </style>
 {% endblock %}
@@ -95,7 +142,7 @@
 
         <div class="status-row">
             <span class="label">Payment Status</span>
-            <span class="success">
+            <span class="{% if order.is_paid %}success{% else %}pending{% endif %}">
                 {% if order.is_paid %}
                     Paid
                 {% else %}
@@ -105,18 +152,58 @@
         </div>
 
         <div class="status-row">
+            <span class="label">Order Status</span>
+            <span class="{% if order.status == 'cancelled' %}cancelled{% elif order.status == 'paid' %}success{% else %}pending{% endif %}">
+                {{ order.get_status_display }}
+            </span>
+        </div>
+
+        <div class="status-row">
             <span class="label">Delivery Status</span>
-            <span class="pending">
-                Processing
+            <span class="{% if order.status == 'cancelled' %}cancelled{% else %}pending{% endif %}">
+                {% if order.status == "cancelled" %}
+                    Cancelled
+                {% else %}
+                    Processing
+                {% endif %}
             </span>
         </div>
 
         <div class="status-row">
             <span class="label">Tracking Reference</span>
-            <span>Will be emailed after dispatch</span>
+            <span>
+                {% if order.status == "cancelled" %}
+                    Order cancelled
+                {% else %}
+                    Will be emailed after dispatch
+                {% endif %}
+            </span>
         </div>
 
+        {% if order.status == "cancelled" %}
+            <div class="status-row">
+                <span class="label">Cancellation Reason</span>
+                <span>{{ order.cancellation_reason }}</span>
+            </div>
+        {% endif %}
+
     </div>
+
+    {% if order.status != "cancelled" %}
+        <div class="cancel-box">
+            <h3>Cancel Order</h3>
+
+            <form method="post" action="{% url 'cancel_order' order.id %}">
+                {% csrf_token %}
+
+                <textarea name="reason" placeholder="Reason for cancellation"></textarea>
+
+                <button type="submit" class="cancel-btn">
+                    Cancel Order
+                </button>
+            </form>
+        </div>
+    {% endif %}
 
     <a href="{% url 'tracking' %}" class="track-btn">
         Track Another Order
