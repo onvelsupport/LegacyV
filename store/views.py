@@ -364,13 +364,15 @@ def tracking(request):
     return render(request, 'store/tracking.html')
 
 def tracking_result(request):
-    order_number = request.GET.get("order")
+    order_number = request.GET.get("order", "").strip().lower()
 
-    order_id = order_number.replace("CROWNVII", "")
+    # Remove "crownvii" prefix if present
+    if order_number.startswith("crownvii"):
+        order_number = order_number.replace("crownvii", "", 1)
 
     try:
-        order = Order.objects.get(id=int(order_id))
-    except:
+        order = Order.objects.get(id=int(order_number))
+    except (ValueError, Order.DoesNotExist):
         return redirect("tracking")
 
     return render(request, "store/tracking_result.html", {
