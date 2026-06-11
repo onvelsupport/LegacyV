@@ -631,8 +631,6 @@ def square_webhook(request):
     body = request.body.decode("utf-8")
     signature = request.headers.get("x-square-hmacsha256-signature", "")
 
-    print("Square signature received:", bool(signature))
-
     message = settings.SQUARE_WEBHOOK_URL + body
 
     expected_signature = base64.b64encode(
@@ -645,7 +643,6 @@ def square_webhook(request):
 
     if not hmac.compare_digest(expected_signature, signature):
         print("Invalid Square webhook signature")
-        print("Webhook URL used:", settings.SQUARE_WEBHOOK_URL)
         return HttpResponse(status=403)
 
     event = json.loads(body)
@@ -658,19 +655,23 @@ def square_webhook(request):
 
     payment = event.get("data", {}).get("object", {}).get("payment", {})
 
-    print("Square payment status:", payment.get("status"))
-    print("Square payment order_id:", payment.get("order_id"))
-
-    if payment.get("status") not in ["COMPLETED", "APPROVED"]:
-        return HttpResponse(status=200)
-
+    status = payment.get("status")
     square_order_id = payment.get("order_id")
+
+    print("Square payment status:", status)
+    print("Square payment order_id:", square_order_id)
+
+    if status != "COMPLETED":
+        return HttpResponse(status=200)
 
     if not square_order_id:
         print("No Square order ID found")
         return HttpResponse(status=200)
 
-    square_api_url = f"https://connect.squareup.com/v2/orders/{square_order_id}"
+    if settings.SQUARE_ENVIRONMENT == "production":
+        square_api_url = f"https://connect.squareup.com/v2/orders/{square_order_id}"
+    else:
+        square_api_url = f"https://connect.squareupsandbox.com/v2/orders/{square_order_id}"
 
     req = urllib.request.Request(
         square_api_url,
@@ -699,31 +700,27 @@ def square_webhook(request):
 
     try:
         order = Order.objects.get(id=django_order_id)
-        print("Django order found:", order.order_number)
 
-        if not order.is_paid:
-            order.is_paid = True
-            order.status = "paid"
-            order.save()
-            print("Square order marked as paid:", order.order_number)
+        order.is_paid = True
+        order.status = "paid"
+        order.save()
 
-            # Create invoice automatically
-            Invoice.objects.get_or_create(
-                order=order,
-                defaults={
-                    "invoice_number": f"INV-{order.id:05d}"
-                }
-            )
-            print("Square invoice created")
+        print("Square order marked as paid:", order.order_number)
 
-            try:
-                send_order_confirmation_email(order, {})
-                print("Square confirmation email sent to:", order.email)
-            except Exception as e:
-                print("Square email failed:", str(e))
+        Invoice.objects.get_or_create(
+            order=order,
+            defaults={
+                "invoice_number": f"INV-{order.id:05d}"
+            }
+        )
 
-        else:
-            print("Square order already paid:", order.order_number)
+        print("Square invoice created")
+
+        try:
+            send_order_confirmation_email(order, {})
+            print("Square confirmation email sent to:", order.email)
+        except Exception as e:
+            print("Square email failed:", str(e))
 
     except Order.DoesNotExist:
         print("Django order not found:", django_order_id)
