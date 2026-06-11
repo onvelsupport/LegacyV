@@ -427,25 +427,29 @@ def stripe_webhook(request):
 
     try:
         payload = request.body
-        sig_header = request.META.get('HTTP_STRIPE_SIGNATURE')
+        sig_header = request.META.get("HTTP_STRIPE_SIGNATURE")
         endpoint_secret = settings.STRIPE_WEBHOOK_SECRET
 
         event = stripe.Webhook.construct_event(payload, sig_header, endpoint_secret)
-        print("Event verified:", event['type'])
+        print("Event verified:", event["type"])
 
-        if event['type'] == 'checkout.session.completed':
+        if event["type"] == "checkout.session.completed":
             print("Checkout session completed")
 
             session = event["data"]["object"]
-            session_id = session["id"]
-            metadata = session["metadata"]
+
+            if hasattr(session, "to_dict_recursive"):
+                session = session.to_dict_recursive()
+
+            session_id = session.get("id")
+            metadata = session.get("metadata") or {}
             order_id = metadata.get("order_id")
 
             print("Session ID:", session_id)
             print("Order ID from metadata:", order_id)
 
             if not order_id:
-                print("No order_id found. Stripe test event or missing metadata.")
+                print("No order_id found.")
                 return HttpResponse(status=200)
 
             try:
@@ -458,24 +462,27 @@ def stripe_webhook(request):
             if not order.is_paid:
                 order.is_paid = True
                 order.status = "paid"
+                order.stripe_session_id = session_id
                 order.save()
+
                 print("Order marked as paid")
+
+                Invoice.objects.get_or_create(
+                    order=order,
+                    defaults={
+                        "invoice_number": f"INV-{order.id:05d}"
+                    }
+                )
+
+                print("Invoice created")
+
+                try:
+                    send_order_confirmation_email(order, session)
+                    print("HTML email sent successfully to:", order.email)
+                except Exception as e:
+                    print("Email sending failed:", str(e))
             else:
                 print("Order was already marked as paid")
-
-            Invoice.objects.get_or_create(
-                order=order,
-                defaults={
-                    "invoice_number": f"INV-{order.id:05d}"
-                }
-            )
-            print("Invoice created")
-
-            try:
-                send_order_confirmation_email(order, session)
-                print("HTML email sent successfully to:", order.email)
-            except Exception as e:
-                print("Email sending failed:", str(e))
 
         return HttpResponse(status=200)
 
