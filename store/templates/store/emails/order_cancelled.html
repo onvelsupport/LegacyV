@@ -1,12 +1,137 @@
-<h2>Your CROWNVII order has been cancelled</h2>
+<!DOCTYPE html>
+<html>
+<body style="margin:0; padding:0; background:#ffffff; font-family:Arial, sans-serif;">
 
-<p>Order Number: <strong>{{ order.order_number }}</strong></p>
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff; padding:20px;">
+  <tr>
+    <td style="text-align:center;">
 
-<p>
-    <strong>Reason:</strong><br>
-    {{ order.cancellation_reason }}
-</p>
+      <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;">
 
-<p>
-    If this cancellation was unexpected, please contact CROWNVII support.
-</p>
+        <tr>
+          <td style="text-align:center; padding:25px 0;">
+            <h2 style="margin:0; font-size:24px; letter-spacing:1px;">
+              YOUR ORDER HAS BEEN CANCELLED
+            </h2>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="text-align:center; padding:10px 0 25px;">
+            <p style="margin:0; color:#777;">Order number</p>
+            <h1 style="margin:6px 0; color:#111;">
+              {{ order.order_number }}
+            </h1>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding:20px;">
+            <div style="background:#f5f5f5; padding:18px; text-align:center; line-height:1.6;">
+              This email confirms that your CROWNVII order has been cancelled.
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding:20px;">
+            <p style="margin:0 0 10px;">
+              <strong>Cancellation reason:</strong>
+            </p>
+
+            <p style="margin:0; color:#555; line-height:1.7;">
+              {{ order.cancellation_reason }}
+            </p>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding:20px;">
+            <p><strong>Delivery address:</strong></p>
+
+            <p style="line-height:1.6; color:#555;">
+              {{ order.address }}<br>
+              {{ order.city }}<br>
+              {{ order.postcode }}<br>
+              {{ order.country }}
+            </p>
+          </td>
+        </tr>
+
+        {% for item in order_items %}
+        <tr>
+          <td style="padding:20px; border-top:1px solid #eee;">
+            <table width="100%">
+              <tr>
+                <td width="120">
+                  <img src="{{ item.product.image.url }}" width="100" style="display:block;">
+                </td>
+
+                <td>
+                  <p style="margin:0;">
+                    <strong>{{ item.product.name }}</strong>
+                  </p>
+
+                  <p style="margin:5px 0;">£{{ item.price }}</p>
+
+                  <p style="margin:5px 0; color:#777;">
+                    {{ item.quantity }} Unit
+                    {% if item.size %}| {{ item.size }}{% endif %}
+                  </p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        {% endfor %}
+
+        <tr>
+          <td style="padding:20px 0;">
+            <hr style="border:none; border-top:1px solid #eee;">
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding:0 20px 20px;">
+            <table width="100%">
+              <tr>
+                <td style="font-size:16px; font-weight:bold;">ORDER TOTAL</td>
+                <td style="text-align:right; font-size:18px; font-weight:bold;">
+                  £{{ order.total_price }}
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding:20px;">
+            <div style="background:#f2f2f2; padding:15px; text-align:center; line-height:1.6;">
+              If you have already paid, any refund will be processed in line with our refund policy.
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="text-align:center; padding:20px;">
+            <a href="https://crownvii.com/contact/"
+               style="background:#000; color:#fff; padding:15px 30px; text-decoration:none; display:inline-block;">
+               Contact Support
+            </a>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding:20px; text-align:center; color:#777; font-size:13px; line-height:1.6;">
+            Thank you for shopping with CROWNVII.
+          </td>
+        </tr>
+
+      </table>
+
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>

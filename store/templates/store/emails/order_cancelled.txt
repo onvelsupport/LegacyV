@@ -1,8 +1,17 @@
-Your CROWNVII order has been cancelled.
+YOUR ORDER HAS BEEN CANCELLED
 
-Order Number: {{ order.order_number }}
+Order number:
+{{ order.order_number }}
 
-Reason:
+This email confirms that your CROWNVII order has been cancelled.
+
+Cancellation reason:
 {{ order.cancellation_reason }}
 
-If this cancellation was unexpected, please contact CROWNVII support.
+Order total:
+£{{ order.total_price }}
+
+If you have already paid, any refund will be processed in line with our refund policy.
+
+Contact support:
+https://crownvii.com/contact/
