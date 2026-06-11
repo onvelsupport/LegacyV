@@ -8,9 +8,7 @@ import hmac
 import hashlib
 import base64
 import urllib.request
-
 import json
-from square.utils.webhooks_helper import verify_signature
 
 from square import Square
 from square.environment import SquareEnvironment
@@ -18,7 +16,6 @@ import uuid
 
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 
 from .models import Product, ProductSize, Order, OrderItem
