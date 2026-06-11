@@ -438,12 +438,9 @@ def stripe_webhook(request):
 
             session = event["data"]["object"]
 
-            if hasattr(session, "to_dict_recursive"):
-                session = session.to_dict_recursive()
-
-            session_id = session.get("id")
-            metadata = session.get("metadata") or {}
-            order_id = metadata.get("order_id")
+            session_id = session["id"]
+            metadata = session["metadata"]
+            order_id = metadata["order_id"] if "order_id" in metadata else None
 
             print("Session ID:", session_id)
             print("Order ID from metadata:", order_id)
@@ -459,30 +456,27 @@ def stripe_webhook(request):
                 print("Order not found:", order_id)
                 return HttpResponse(status=200)
 
-            if not order.is_paid:
-                order.is_paid = True
-                order.status = "paid"
-                order.stripe_session_id = session_id
-                order.save()
+            order.is_paid = True
+            order.status = "paid"
+            order.stripe_session_id = session_id
+            order.save()
 
-                print("Order marked as paid")
+            print("Order marked as paid")
 
-                Invoice.objects.get_or_create(
-                    order=order,
-                    defaults={
-                        "invoice_number": f"INV-{order.id:05d}"
-                    }
-                )
+            Invoice.objects.get_or_create(
+                order=order,
+                defaults={
+                    "invoice_number": f"INV-{order.id:05d}"
+                }
+            )
 
-                print("Invoice created")
+            print("Invoice created")
 
-                try:
-                    send_order_confirmation_email(order, session)
-                    print("HTML email sent successfully to:", order.email)
-                except Exception as e:
-                    print("Email sending failed:", str(e))
-            else:
-                print("Order was already marked as paid")
+            try:
+                send_order_confirmation_email(order, session)
+                print("HTML email sent successfully to:", order.email)
+            except Exception as e:
+                print("Email sending failed:", str(e))
 
         return HttpResponse(status=200)
 
