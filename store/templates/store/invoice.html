@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Invoice {{ order.order_number }}</title>
+</head>
+<body style="font-family: Arial, sans-serif; margin: 40px; color: #111;">
+
+    <h1>CROWNVII</h1>
+    <h2>Invoice</h2>
+
+    <p><strong>Invoice Number:</strong> {{ order.order_number }}</p>
+    <p><strong>Order Date:</strong> {{ order.created_at|date:"d M Y" }}</p>
+    <p><strong>Status:</strong> {{ order.get_status_display }}</p>
+
+    <hr>
+
+    <h3>Customer</h3>
+    <p>
+        {{ order.full_name }}<br>
+        {{ order.email }}<br>
+        {{ order.address }}<br>
+        {{ order.city }}<br>
+        {{ order.postcode }}<br>
+        {{ order.country }}
+    </p>
+
+    <hr>
+
+    <h3>Items</h3>
+
+    <table width="100%" cellpadding="10" cellspacing="0" border="1">
+        <tr>
+            <th align="left">Product</th>
+            <th align="left">Size</th>
+            <th align="left">Quantity</th>
+            <th align="left">Price</th>
+        </tr>
+
+        {% for item in order_items %}
+        <tr>
+            <td>{{ item.product.name }}</td>
+            <td>{{ item.size|default:"-" }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>£{{ item.price }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2 style="text-align:right;">
+        Total: £{{ order.total_price }}
+    </h2>
+
+    <hr>
+
+    <p>
+        Thank you for shopping with CROWNVII.
+    </p>
+
+</body>
+</html>

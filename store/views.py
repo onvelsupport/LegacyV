@@ -742,3 +742,15 @@ def send_order_cancellation_email(order):
         "html": html_content,
         "text": text_content,
     })
+
+
+def download_invoice(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+
+    response = HttpResponse(content_type="text/html")
+    response["Content-Disposition"] = f'attachment; filename="invoice-{order.order_number}.html"'
+
+    return render(request, "store/invoice.html", {
+        "order": order,
+        "order_items": order.items.all(),
+    })
