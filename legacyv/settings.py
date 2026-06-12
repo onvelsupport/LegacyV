@@ -19,9 +19,9 @@ ALLOWED_HOSTS = [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
+    "https://legacyv.store",
+    "https://www.legacyv.store",
     "https://legacyv-ksky.onrender.com",
-    "legacyv.store",
-    "www.legacyv.store",
 ]
 
 INSTALLED_APPS = [
