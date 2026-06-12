@@ -14,10 +14,14 @@ ALLOWED_HOSTS = [
     "legacyv-ksky.onrender.com",
     "localhost",
     "127.0.0.1",
+    "legacyv.store",
+    "www.legacyv.store",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     "https://legacyv-ksky.onrender.com",
+    "legacyv.store",
+    "www.legacyv.store",
 ]
 
 INSTALLED_APPS = [
